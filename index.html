@@ -97,45 +97,6 @@ button:hover{
     background:#e74c3c !important;
     color:white !important;
 }
-
-#progress{
-    color:#00c6ff;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.opt{
-    display:block;
-    width:100%;
-    margin:10px 0;
-    padding:14px;
-    border-radius:12px;
-    border:none;
-    cursor:pointer;
-
-    background:white;
-    color:black;
-    font-size:16px;
-    font-weight:bold;
-
-    box-shadow:0 2px 10px rgba(0,0,0,0.15);
-    transition:0.2s;
-}
-
-.opt:hover{
-    transform:scale(1.02);
-}
-
-.correct{
-    background:#2ecc71 !important;
-    color:white !important;
-}
-
-.wrong{
-    background:#e74c3c !important;
-    color:white !important;
-}
-
 </style>
 
 </head>
@@ -189,13 +150,8 @@ button:hover{
 
 <!-- QUIZ -->
 <div id="quiz" class="container" style="display:none;">
-
-    <h3 id="progress">1 / 5</h3>
-
     <h2 id="q"></h2>
-
     <div id="answers"></div>
-
 </div>
 
 <!-- RESULT -->
@@ -221,8 +177,6 @@ Bu sertifikat interaktiv ta’lim platformasi orqali berildi
 </p>
 
 <button onclick="location.reload()">Qayta boshlash</button>
-
-<button onclick="nextLesson()">➡ Keyingi mavzu</button>
 
 </div>
 </div>
@@ -379,92 +333,8 @@ document.getElementById("score").innerText=score+"/"+data[i].quiz.length;
 }
 }
 
-function nextLesson(){
-
-// keyingi mavzuga o‘tish
-i++;
-
-if(i >= data.length){
-    alert("🎉 Hammasi tugadi!");
-    location.reload();
-    return;
-}
-
-// reset quiz
-q = 0;
-score = 0;
-
-// UI qaytarish
-document.getElementById("result").style.display = "none";
-document.getElementById("lesson").style.display = "none";
-document.getElementById("quiz").style.display = "none";
-
-// mavzu ochish
-document.getElementById("home").style.display = "none";
-document.getElementById("list").style.display = "block";
-}
-
-function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
-
-function showQ(){
-
-let obj = data[i].quiz[q];
-
-document.getElementById("q").innerText = obj.q;
-document.getElementById("progress").innerText = (q+1) + " / " + data[i].quiz.length;
-
-let a = document.getElementById("answers");
-a.innerHTML = "";
-
-let b = document.createElement("button");
-b.innerText = t;
-b.className = "opt";
-
-b.onclick = ()=>{
-
-let buttons = document.querySelectorAll(".opt");
-
-buttons.forEach(btn => btn.disabled = true);
-
-// TO‘G‘RI
-if(idx === obj.c){
-b.classList.add("correct");
-score++;
-}else{
-b.classList.add("wrong");
-buttons[obj.c].classList.add("correct");
-}
-
-// keyingi savolga o‘tish
-setTimeout(next, 700);
-
-};
-
-a.appendChild(b);
-});
-}
-
-function next(){
-
-q++;
-
-if(q < data[i].quiz.length){
-    showQ();
-}else{
-    document.getElementById("quiz").style.display="none";
-    document.getElementById("result").style.display="flex";
-
-    let total = data[i].quiz.length;
-    let percent = Math.round((score/total)*100);
-
-    document.getElementById("certScore").innerText =
-    "Ball: " + score + "/" + total + " (" + percent + "%)";
-}
-}
-
 </script>
 
 </body>
 </html>
+
