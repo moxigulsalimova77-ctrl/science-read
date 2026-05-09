@@ -1,75 +1,97 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>4-sinf Tabiiy fanlar</title>
+<title>Science Read - 4 sinf</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#4f46e5,#06b6d4,#22c55e);
+  font-family:Roboto;
+  background:#0b1220;
   color:white;
 }
 
+/* HEADER */
 header{
   padding:20px;
   text-align:center;
+  background:linear-gradient(90deg,#4f46e5,#06b6d4);
   font-size:20px;
   font-weight:bold;
 }
 
-.container{padding:15px;}
+/* LAYOUT */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
 
+/* CARD */
 .card{
-  background:rgba(255,255,255,0.15);
+  background:#111827;
   padding:15px;
   margin:10px 0;
-  border-radius:20px;
+  border-radius:16px;
   cursor:pointer;
   transition:0.3s;
-  backdrop-filter:blur(10px);
+  border:1px solid #1f2937;
 }
 
 .card:hover{
-  transform:scale(1.03);
+  transform:scale(1.02);
+  border-color:#38bdf8;
 }
 
+/* BUTTONS */
 button{
-  padding:10px;
+  padding:10px 14px;
   border:none;
   border-radius:10px;
-  margin:5px;
   cursor:pointer;
 }
 
-.admin{background:#f59e0b;}
-.add{background:#22c55e;}
-.del{background:#ef4444;}
+.adminBtn{background:#f59e0b;color:black;}
+.addBtn{background:#22c55e;}
+.delBtn{background:#ef4444;}
 
+/* INPUT */
 input,textarea{
   width:100%;
   padding:10px;
   margin:5px 0;
   border-radius:10px;
   border:none;
+  background:#1f2937;
+  color:white;
 }
 
-.hidden{display:none;}
-
+/* OPTION */
 .option{
-  background:rgba(255,255,255,0.15);
+  background:#1f2937;
   padding:12px;
   margin:8px 0;
-  border-radius:15px;
+  border-radius:12px;
   cursor:pointer;
-  transition:0.3s;
+  transition:0.2s;
 }
 
 .option:hover{
   background:#38bdf8;
-  transform:scale(1.02);
+  color:black;
+}
+
+/* LAYOUT SECTIONS */
+.hidden{display:none;}
+
+.topBar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 </style>
 </head>
@@ -77,22 +99,23 @@ input,textarea{
 <body>
 
 <header>
-👋 Qadrli o‘quvchi! 4-sinf Tabiiy fanlar platformasiga xush kelibsan!
+👋 4-sinf Tabiiy fanlar | Science Read
 </header>
 
 <div class="container">
 
-<button class="admin" onclick="login()">Admin</button>
+<div class="topBar">
+<button class="adminBtn" onclick="login()">Admin</button>
+</div>
 
+<!-- ADMIN -->
 <div id="adminPanel" class="hidden">
+<h3>🛠 Admin Dashboard</h3>
 
-<h3>🛠 Admin panel</h3>
+<input id="title" placeholder="Mavzu nomi"/>
+<textarea id="desc" placeholder="Dars matni"></textarea>
 
-<input id="title" placeholder="Mavzu nomi">
-<textarea id="desc" placeholder="Mavzu matni"></textarea>
-
-<button class="add" onclick="addTopic()">+ Qo‘shish</button>
-
+<button class="addBtn" onclick="addTopic()">+ Saqlash</button>
 </div>
 
 <h3>📚 Mavzular</h3>
@@ -102,12 +125,11 @@ input,textarea{
 
 </div>
 
-<!-- Firebase -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-// 🔥 Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCcoCX94i2eIMXWyP3wZ2dwDARcECvDMr8",
   authDomain: "science-read.firebaseapp.com",
@@ -120,58 +142,62 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let score = 0;
+let currentId = null;
 
-// 🔐 ADMIN LOGIN
+/* ADMIN LOGIN */
 function login(){
   let p = prompt("Admin kod:");
   if(p==="1234"){
     document.getElementById("adminPanel").classList.remove("hidden");
     alert("Admin ochildi");
-  } else alert("Xato kod");
+  }
 }
 
-// 📚 LOAD
-function load(){
-  db.collection("topics").onSnapshot(snap=>{
-    let box = document.getElementById("topics");
-    box.innerHTML="";
+/* LOAD TOPICS */
+db.collection("topics").onSnapshot(snap=>{
+  let box = document.getElementById("topics");
+  box.innerHTML="";
 
-    snap.forEach(doc=>{
-      let d = doc.data();
+  snap.forEach(doc=>{
+    let d = doc.data();
 
-      box.innerHTML+=`
-        <div class="card">
-          <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
-          <button class="del" onclick="del('${doc.id}')">O‘chirish</button>
-        </div>
-      `;
-    });
+    box.innerHTML += `
+      <div class="card">
+        <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
+        <button class="delBtn" onclick="deleteTopic('${doc.id}')">O‘chirish</button>
+      </div>
+    `;
   });
-}
+});
 
-// ➕ ADD
+/* ADD / SAVE */
 function addTopic(){
-  db.collection("topics").add({
-    title:document.getElementById("title").value,
-    desc:document.getElementById("desc").value
-  });
+  let title = document.getElementById("title").value;
+  let desc = document.getElementById("desc").value;
+
+  if(currentId){
+    db.collection("topics").doc(currentId).update({title,desc});
+    currentId = null;
+  } else {
+    db.collection("topics").add({title,desc});
+  }
 
   document.getElementById("title").value="";
   document.getElementById("desc").value="";
 }
 
-// ❌ DELETE
-function del(id){
+/* DELETE */
+function deleteTopic(id){
   db.collection("topics").doc(id).delete();
 }
 
-// 📖 OPEN TOPIC
+/* OPEN TOPIC */
 function openTopic(id){
   db.collection("topics").doc(id).get().then(doc=>{
     let d = doc.data();
+    currentId = id;
 
-    document.getElementById("lesson").innerHTML=`
+    document.getElementById("lesson").innerHTML = `
       <div class="card">
         <h2>${d.title}</h2>
         <p>${d.desc}</p>
@@ -179,37 +205,19 @@ function openTopic(id){
 
       <h3>📝 Test</h3>
 
-      <div class="option" onclick="answer(true)">A variant</div>
-      <div class="option" onclick="answer(false)">B variant</div>
-      <div class="option" onclick="answer(false)">C variant</div>
+      <div class="option" onclick="alert('To‘g‘ri 👍')">A variant</div>
+      <div class="option" onclick="alert('Noto‘g‘ri ❌')">B variant</div>
+      <div class="option" onclick="alert('Noto‘g‘ri ❌')">C variant</div>
 
       <h3>✍ PIRLS savol</h3>
       <textarea placeholder="Javob yozing..."></textarea>
 
       <h3>🖼 Rasm topshiriq</h3>
-      <div class="option" onclick="answer(true)">To‘g‘ri rasm</div>
-      <div class="option" onclick="answer(false)">Noto‘g‘ri rasm</div>
-
-      <h3>⭐ Ball: ${score}</h3>
+      <div class="option">Rasm 1</div>
+      <div class="option">Rasm 2</div>
     `;
   });
 }
-
-// 🎯 ANSWER SYSTEM
-function answer(ok){
-  if(ok){
-    score++;
-    document.body.style.background="linear-gradient(135deg,#22c55e,#16a34a)";
-    alert("🎉 To‘g‘ri +1 ball");
-  } else {
-    document.body.style.background="linear-gradient(135deg,#ef4444,#b91c1c)";
-    alert("❌ Noto‘g‘ri");
-  }
-
-  setTimeout(()=>location.reload(),800);
-}
-
-load();
 </script>
 
 </body>
