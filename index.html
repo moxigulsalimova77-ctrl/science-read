@@ -1,196 +1,210 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tabiiy fanlar - 4 sinf</title>
+import { useState } from "react";
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
-  color:white;
-}
+const data = [
+  {
+    title: "1-MAVZU: Modda",
+    content: `Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
+Oddiy qilib aytganda:
+• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat.
+• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo).
 
-/* HOME */
-.home{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
+📌 Misol:
+• Siz ichayotgan suv — modda
+• Nafas olayotgan havo — modda
+• Qo‘lingizdagi qalam — modda
 
-.title{
-  font-size:32px;
-  font-weight:bold;
-  margin-bottom:20px;
-}
+Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
+    quiz: [
+      {
+        q: "Modda nima?",
+        a: ["Faqat suv", "Jismlarni tashkil qiladigan material", "Faqat havo", "Faqat tosh"],
+        c: 1,
+      },
+      {
+        q: "Qaysi biri modda?",
+        a: ["Stol", "Quyosh", "Yorug‘lik", "Soy"],
+        c: 0,
+      },
+    ],
+  },
+  {
+    title: "2-MAVZU: Atmosfera",
+    content: `Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
+Oddiy qilib aytganda:
+• Biz nafas olayotgan havo atmosferaning bir qismi.
+• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi.
 
-.startBtn{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:none;
-  font-size:18px;
-  background:#22c55e;
-  color:black;
-  cursor:pointer;
-}
+📌 Atmosfera nima uchun kerak?
+• Bizga nafas olish uchun havo beradi
+• Yerni Quyoshning juda issiq nurlaridan himoya qiladi
+• Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi
 
-/* TOPICS */
-.container{padding:20px;}
+👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
+    quiz: [
+      {
+        q: "Atmosfera nima?",
+        a: ["Suv qatlami", "Tog‘", "Havo qatlami", "Tosh"],
+        c: 2,
+      },
+      {
+        q: "Atmosfera nima qiladi?",
+        a: ["Yerni sovitadi", "Yerni himoya qiladi", "Tosh yasaydi", "O‘t yoqadi"],
+        c: 1,
+      },
+    ],
+  },
+  {
+    title: "3-MAVZU: Havoning xossalari",
+    content: `🌬 1. Havo ko‘rinmaydi
+• Biz havoni ko‘rmaymiz, lekin u bor.
 
-.topic{
-  background:rgba(255,255,255,0.15);
-  padding:15px;
-  margin:10px 0;
-  border-radius:15px;
-  font-size:18px;
-  cursor:pointer;
-}
+🌬 2. Havo hid va rangga ega emas
+• Havo odatda rangsiz va hidsiz bo‘ladi.
 
-/* ADMIN */
-.adminBtn{
-  position:fixed;
-  top:10px;
-  right:10px;
-  background:#f59e0b;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-}
+🌬 3. Havo hamma joyni egallaydi
+• Bo‘sh idishning ichini ham havo to‘ldiradi.
 
-.panel{
-  background:#111827;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:10px;
-}
+🌬 4. Havo bosimga ega
+• Havo bosadi, shuning uchun shamol esadi.
 
-input,textarea{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-}
-button{
-  padding:10px;
-  border:none;
-  border-radius:10px;
-}
-</style>
-</head>
+🌬 5. Havo siqiladi va kengayadi
+• Havo siqilsa kichrayadi, bo‘shatilsa kengayadi.
 
-<body>
+👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor.`,
+    quiz: [
+      {
+        q: "Havo qanday?",
+        a: ["Ko‘rinadi", "Rangsiz", "Qattiq", "Tosh"],
+        c: 1,
+      },
+      {
+        q: "Havo nima qiladi?",
+        a: ["Yo‘q bo‘ladi", "Hamma joyni egallaydi", "Faqat yerda turadi", "Suvga aylanadi"],
+        c: 1,
+      },
+    ],
+  },
+  {
+    title: "4-MAVZU: Suv va uning xossalari",
+    content: `Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda.
 
-<!-- ADMIN -->
-<button class="adminBtn" onclick="login()">Admin</button>
+💧 Suvning xossalari:
+1. Suv shaffof (tiniq)
+2. Suvning o‘ziga xos rangi va hidi yo‘q
+3. Suv suyuq
+4. Suv muzlashi va bug‘lanishi mumkin
+5. Suv hayot uchun juda zarur
 
-<!-- HOME -->
-<div id="home" class="home">
-  <div class="title">Qadrli o‘quvchi, tabiiy fanlarga xush kelibsan!</div>
-  <button class="startBtn" onclick="showTopics()">Boshlash</button>
-</div>
+👉 Xulosa: Suv — rangsiz, hidsiz, suyuq modda bo‘lib, hayot uchun juda muhim.`,
+    quiz: [
+      {
+        q: "Suv qanday?",
+        a: ["Qattiq", "Shaffof", "Tosh", "Gaz"],
+        c: 1,
+      },
+      {
+        q: "Suv nima uchun kerak?",
+        a: ["O‘yin uchun", "Hayot uchun", "Faqat rasm uchun", "Yo‘q"],
+        c: 1,
+      },
+    ],
+  },
+  {
+    title: "5-MAVZU: Suv manbalari",
+    content: `💧 Asosiy suv manbalari:
 
-<!-- TOPICS -->
-<div id="topics" class="container" style="display:none">
+1. Daryolar 🌊
+2. Ko‘llar 🏞
+3. Dengiz va okeanlar 🌊
+4. Buloqlar 💦
+5. Yer osti suvlari 🌍
 
-<div id="adminPanel" style="display:none" class="panel">
-<h3>Admin panel</h3>
-<input id="title" placeholder="Mavzu nomi"/>
-<textarea id="desc" placeholder="Mavzu matni"></textarea>
-<button onclick="addTopic()">Saqlash</button>
-</div>
+👉 Xulosa: Suv manbalari — bizga suv beradigan tabiiy joylar.`,
+    quiz: [
+      {
+        q: "Qaysi biri suv manbai?",
+        a: ["Tog‘", "Daryo", "Bulut", "Quyosh"],
+        c: 1,
+      },
+      {
+        q: "Dengiz suvi qanday?",
+        a: ["Sho‘r", "Shirin", "Quruq", "Issiq"],
+        c: 0,
+      },
+    ],
+  },
+];
 
-<h2>Mavzular</h2>
-<div id="list"></div>
+export default function App() {
+  const [step, setStep] = useState("menu");
+  const [current, setCurrent] = useState(null);
+  const [qIndex, setQIndex] = useState(0);
+  const [score, setScore] = useState(0);
 
-<div id="lesson"></div>
+  const startLesson = (i) => {
+    setCurrent(i);
+    setStep("lesson");
+  };
 
-</div>
+  const startQuiz = () => {
+    setQIndex(0);
+    setScore(0);
+    setStep("quiz");
+  };
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  const answer = (i) => {
+    if (i === data[current].quiz[qIndex].c) {
+      setScore(score + 1);
+    }
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCcoCX94i2eIMXWyP3wZ2dwDARcECvDMr8",
-  authDomain: "science-read.firebaseapp.com",
-  projectId: "science-read",
-  storageBucket: "science-read.firebasestorage.app",
-  messagingSenderId: "1070431247250",
-  appId: "1:1070431247250:web:423376924d1d29224bff4b"
-};
+    if (qIndex + 1 < data[current].quiz.length) {
+      setQIndex(qIndex + 1);
+    } else {
+      setStep("result");
+    }
+  };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  return (
+    <div style={{ fontFamily: "Arial", padding: 20 }}>
+      <h1>🌿 4-SINF TABIIY FAN PLATFORMA</h1>
 
-/* HOME */
-function showTopics(){
-  document.getElementById("home").style.display="none";
-  document.getElementById("topics").style.display="block";
-  loadTopics();
-}
-
-/* ADMIN LOGIN */
-function login(){
-  let p = prompt("Admin kod:");
-  if(p==="1234"){
-    document.getElementById("adminPanel").style.display="block";
-  }
-}
-
-/* ADD */
-function addTopic(){
-  db.collection("topics").add({
-    title:document.getElementById("title").value,
-    desc:document.getElementById("desc").value
-  });
-}
-
-/* LOAD */
-function loadTopics(){
-  db.collection("topics").onSnapshot(snap=>{
-    let box=document.getElementById("list");
-    box.innerHTML="";
-
-    snap.forEach(doc=>{
-      let d=doc.data();
-
-      box.innerHTML+=`
-        <div class="topic" onclick="openTopic('${doc.id}')">
-          ${d.title}
+      {step === "menu" && (
+        <div>
+          {data.map((d, i) => (
+            <div key={i} style={{ border: "1px solid gray", margin: 10, padding: 10 }}>
+              <h3>{d.title}</h3>
+              <button onClick={() => startLesson(i)}>Mavzuni ochish</button>
+            </div>
+          ))}
         </div>
-      `;
-    });
-  });
+      )}
+
+      {step === "lesson" && (
+        <div>
+          <h2>{data[current].title}</h2>
+          <pre style={{ whiteSpace: "pre-wrap" }}>{data[current].content}</pre>
+          <button onClick={startQuiz}>Testni boshlash 🎮</button>
+        </div>
+      )}
+
+      {step === "quiz" && (
+        <div>
+          <h2>{data[current].quiz[qIndex].q}</h2>
+          {data[current].quiz[qIndex].a.map((a, i) => (
+            <button key={i} onClick={() => answer(i)} style={{ display: "block", margin: 5 }}>
+              {a}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {step === "result" && (
+        <div>
+          <h2>Natija 🏆</h2>
+          <p>Ball: {score} / {data[current].quiz.length}</p>
+          <button onClick={() => setStep("menu")}>Boshiga qaytish</button>
+        </div>
+      )}
+    </div>
+  );
 }
-
-/* OPEN */
-function openTopic(id){
-  db.collection("topics").doc(id).get().then(doc=>{
-    let d=doc.data();
-
-    document.getElementById("lesson").innerHTML=`
-      <h2>${d.title}</h2>
-      <p>${d.desc}</p>
-
-      <h3>📝 Test</h3>
-      <button onclick="alert('To‘g‘ri')">A</button>
-      <button onclick="alert('Noto‘g‘ri')">B</button>
-
-      <h3>✍ PIRLS</h3>
-      <textarea placeholder="Javob yoz..."></textarea>
-
-      <h3>🖼 Rasm topshiriq</h3>
-      <p>Rasm joylash keyin qo‘shiladi</p>
-    `;
-  });
-}
-</script>
-
-</body>
-</html>
