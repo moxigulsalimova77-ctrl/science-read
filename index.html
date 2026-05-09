@@ -8,7 +8,7 @@
     *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
 
     body{
-      background:linear-gradient(135deg,#0b1320,#1e3a8a,#0f766e);
+      background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e);
       color:white;
       min-height:100vh;
     }
@@ -17,7 +17,7 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:18px 30px;
+      padding:18px 25px;
       background:rgba(0,0,0,0.35);
       backdrop-filter:blur(10px);
       position:sticky;
@@ -25,33 +25,17 @@
     }
 
     nav h1{
-      font-size:20px;
+      font-size:18px;
       color:#38bdf8;
-    }
-
-    nav ul{
-      display:flex;
-      list-style:none;
-      gap:15px;
-      font-size:14px;
-    }
-
-    nav ul li{
-      cursor:pointer;
-      transition:0.3s;
-    }
-
-    nav ul li:hover{
-      color:#22c55e;
     }
 
     .hero{
       text-align:center;
-      padding:80px 20px;
+      padding:70px 20px 40px;
     }
 
     .hero h2{
-      font-size:40px;
+      font-size:34px;
       margin-bottom:10px;
     }
 
@@ -60,117 +44,109 @@
       margin-bottom:20px;
     }
 
-    .btn{
-      padding:12px 22px;
-      background:#22c55e;
-      border:none;
-      border-radius:10px;
-      color:black;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-    }
-
-    .btn:hover{
-      transform:scale(1.05);
-    }
-
-    .section{
-      padding:40px 20px;
-      text-align:center;
-    }
-
-    .cards{
+    .menu{
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
       gap:15px;
-      margin-top:20px;
+      padding:20px;
     }
 
     .card{
-      background:rgba(255,255,255,0.08);
+      width:250px;
       padding:18px;
       border-radius:14px;
-      width:260px;
-      transition:0.3s;
+      background:rgba(255,255,255,0.08);
       cursor:pointer;
+      transition:0.3s;
+      text-align:center;
     }
 
     .card:hover{
       transform:translateY(-6px);
-      background:rgba(34,197,94,0.2);
+      background:rgba(56,189,248,0.25);
     }
 
-    footer{
+    .section{
+      display:none;
+      padding:30px 20px;
       text-align:center;
-      padding:20px;
-      opacity:0.6;
-      margin-top:30px;
+    }
+
+    .active{
+      display:block;
+    }
+
+    .back{
+      margin-top:20px;
+      padding:10px 18px;
+      border:none;
+      border-radius:8px;
+      background:#22c55e;
+      cursor:pointer;
+      font-weight:bold;
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <h1>🌿 Tabiiy Fan 4-sinf</h1>
-    <ul>
-      <li>Bosh sahifa</li>
-      <li>Darslar</li>
-      <li>Topshiriqlar</li>
-      <li>Aloqa</li>
-    </ul>
+    <h1>🌿 4-sinf Tabiiy Fan</h1>
   </nav>
 
   <section class="hero">
-    <h2>🚀 Tabiiy Fan Platforma</h2>
-    <p>4-sinf o‘quvchilari uchun qiziqarli darslar va topshiriqlar</p>
-    <button class="btn" onclick="alert('Dars boshlandi! 🌱')">Boshlash</button>
+    <h2>👋 Salom, qadrli o‘quvchi!</h2>
+    <p>Bugun qaysi turdagi mashg‘ulotni tanlaysan?</p>
   </section>
 
-  <section class="section">
-    <h2>📚 Dars Bo‘limlari</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>🌍 Tabiat</h3>
-        <p>Yer, suv, havo va tabiat hodisalari</p>
-      </div>
-      <div class="card">
-        <h3>🌱 O‘simliklar</h3>
-        <p>O‘simliklarning turlari va o‘sishi</p>
-      </div>
-      <div class="card">
-        <h3>🐾 Hayvonlar</h3>
-        <p>Hayvonlar olami va ularning yashash joyi</p>
-      </div>
-      <div class="card">
-        <h3>🌞 Ob-havo</h3>
-        <p>Fasllar va ob-havo o‘zgarishi</p>
-      </div>
+  <section class="menu" id="menu">
+    <div class="card" onclick="openSection('test')">
+      <h3>📝 Testlar</h3>
+      <p>Bilimingni sinab ko‘r</p>
+    </div>
+
+    <div class="card" onclick="openSection('text')">
+      <h3>📘 Matnli mashqlar</h3>
+      <p>Mavzuni o‘qib o‘rgan</p>
+    </div>
+
+    <div class="card" onclick="openSection('image')">
+      <h3>🖼 Rasmli mashqlar</h3>
+      <p>Rasm orqali o‘rgan</p>
     </div>
   </section>
 
-  <section class="section">
-    <h2>📝 Topshiriqlar</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Test 1</h3>
-        <p>Tabiat elementlarini top</p>
-      </div>
-      <div class="card">
-        <h3>Test 2</h3>
-        <p>O‘simliklarni ajrat</p>
-      </div>
-      <div class="card">
-        <h3>Test 3</h3>
-        <p>Hayvonlarni guruhlash</p>
-      </div>
-    </div>
+  <section id="test" class="section">
+    <h2>📝 Testlar bo‘limi</h2>
+    <p>1. Tabiat necha qismdan iborat?</p>
+    <p>A) 2  B) 3  C) 4</p>
+    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
   </section>
 
-  <footer>
-    © 2026 4-sinf Tabiiy Fan Platforma | GitHub Pages
-  </footer>
+  <section id="text" class="section">
+    <h2>📘 Matnli mashqlar</h2>
+    <p>Tabiat — bu bizni o‘rab turgan yer, suv, havo va barcha tirik organizmlar.</p>
+    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
+  </section>
+
+  <section id="image" class="section">
+    <h2>🖼 Rasmli mashqlar</h2>
+    <p>O‘simlik va hayvonlarni rasmlar orqali o‘rganamiz.</p>
+    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
+  </section>
+
+  <script>
+    function openSection(id){
+      document.getElementById('menu').style.display='none';
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function backMenu(){
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      document.getElementById('menu').style.display='flex';
+    }
+  </script>
 
 </body>
 </html>
