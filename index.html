@@ -178,6 +178,8 @@ Bu sertifikat interaktiv ta’lim platformasi orqali berildi
 
 <button onclick="location.reload()">Qayta boshlash</button>
 
+<button onclick="nextLesson()">➡ Keyingi mavzu</button>
+
 </div>
 </div>
 
@@ -333,7 +335,36 @@ document.getElementById("score").innerText=score+"/"+data[i].quiz.length;
 }
 }
 
+function nextLesson(){
+
+// keyingi mavzuga o‘tish
+i++;
+
+if(i >= data.length){
+    alert("🎉 Hammasi tugadi!");
+    location.reload();
+    return;
+}
+
+// reset quiz
+q = 0;
+score = 0;
+
+// UI qaytarish
+document.getElementById("result").style.display = "none";
+document.getElementById("lesson").style.display = "none";
+document.getElementById("quiz").style.display = "none";
+
+// mavzu ochish
+document.getElementById("home").style.display = "none";
+document.getElementById("list").style.display = "block";
+}
+
 </script>
 
 </body>
 </html>
+
+
+
+
