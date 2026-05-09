@@ -404,6 +404,10 @@ document.getElementById("home").style.display = "none";
 document.getElementById("list").style.display = "block";
 }
 
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
 function showQ(){
 
 let obj = data[i].quiz[q];
@@ -413,8 +417,6 @@ document.getElementById("progress").innerText = (q+1) + " / " + data[i].quiz.len
 
 let a = document.getElementById("answers");
 a.innerHTML = "";
-
-obj.a.forEach((t, idx)=>{
 
 let b = document.createElement("button");
 b.innerText = t;
