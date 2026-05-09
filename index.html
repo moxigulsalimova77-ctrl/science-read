@@ -162,23 +162,16 @@ button:hover{
 </div>
 
 <div id="result" class="center" style="display:none;">
-<div style="background:white;color:black;padding:25px;border-radius:20px;max-width:500px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.4)">
+    <div style="background:white;color:black;padding:25px;border-radius:20px;max-width:500px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.4)">
 
-<h1>🏆 SERTIFIKAT</h1>
+        <h1>🏆 Natija</h1>
 
-<p style="font-size:18px;">4-Sinf Tabiiy Fan platformasini muvaffaqiyatli yakunladi</p>
+        <h2 id="score"></h2>
 
-<h2 id="certName">O‘quvchi</h2>
+        <button onclick="nextLesson()">➡ Keyingi mavzu</button>
+        <button onclick="location.reload()">Qayta boshlash</button>
 
-<p id="certScore"></p>
-
-<p style="margin-top:20px;font-size:14px;color:gray;">
-Bu sertifikat interaktiv ta’lim platformasi orqali berildi
-</p>
-
-<button onclick="location.reload()">Qayta boshlash</button>
-
-</div>
+    </div>
 </div>
 
 <script>
@@ -303,38 +296,88 @@ document.getElementById("quiz").style.display="block";
 showQ();
 }
 
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
 function showQ(){
+
 let obj=data[i].quiz[q];
+
 document.getElementById("q").innerText=obj.q;
+
+let options=[...obj.a];
+let correct=obj.a[obj.c];
+
+options=shuffle(options);
+
+let newC=options.indexOf(correct);
 
 let a=document.getElementById("answers");
 a.innerHTML="";
 
-obj.a.forEach((t,idx)=>{
+options.forEach((t,idx)=>{
 let b=document.createElement("button");
 b.innerText=t;
 b.className="opt";
+
 b.onclick=()=>{
-if(idx==obj.c) score++;
-next();
+
+let buttons=document.querySelectorAll(".opt");
+buttons.forEach(x=>x.disabled=true);
+
+if(idx==newC){
+b.classList.add("correct");
+score++;
+}else{
+b.classList.add("wrong");
+buttons[newC].classList.add("correct");
+}
+
+setTimeout(next,800);
 };
+
 a.appendChild(b);
 });
 }
 
 function next(){
 q++;
-if(q<data[i].quiz.length){
-showQ();
+
+if(q < data[i].quiz.length){
+    showQ();
 }else{
-document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="flex";
-document.getElementById("score").innerText=score+"/"+data[i].quiz.length;
+    document.getElementById("quiz").style.display="none";
+    document.getElementById("result").style.display="flex";
+
+    let total=data[i].quiz.length;
+    let percent=Math.round((score/total)*100);
+
+    document.getElementById("score").innerText=
+    score+"/"+total+" ("+percent+"%)";
 }
+}
+
+function nextLesson(){
+
+i++;
+q=0;
+score=0;
+
+if(i >= data.length){
+alert("🎉 Hammasi tugadi!");
+location.reload();
+return;
+}
+
+document.getElementById("result").style.display="none";
+document.getElementById("lesson").style.display="block";
+
+document.getElementById("title").innerText=data[i].title;
+document.getElementById("text").innerText=data[i].text;
 }
 
 </script>
 
 </body>
 </html>
-
