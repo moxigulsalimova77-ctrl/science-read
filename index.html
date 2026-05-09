@@ -1,193 +1,133 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🌿 4-sinf Tabiiy Fan - TIMSS & PIRLS</title>
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌿 TIMSS PIRLS Platforma</title>
 
-    body{
-      background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e,#22c55e);
-      color:white;
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0f766e);
+  color:white;
+}
 
-    nav{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:18px 25px;
-      background:rgba(0,0,0,0.35);
-      backdrop-filter:blur(10px);
-      position:sticky;
-      top:0;
-      z-index:10;
-    }
+.container{
+  padding:20px;
+  text-align:center;
+}
 
-    nav h1{
-      font-size:18px;
-      color:#38bdf8;
-    }
+.card{
+  background:rgba(255,255,255,0.08);
+  padding:20px;
+  margin:10px;
+  border-radius:15px;
+}
 
-    .hero{
-      text-align:center;
-      padding:60px 20px 30px;
-    }
+button{
+  padding:10px;
+  margin:5px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-    .hero h2{
-      font-size:32px;
-      margin-bottom:10px;
-    }
+.choice{
+  background:#38bdf8;
+}
 
-    .menu{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:15px;
-      padding:20px;
-    }
+.next{
+  background:#22c55e;
+}
 
-    .card{
-      width:240px;
-      padding:18px;
-      border-radius:15px;
-      background:rgba(255,255,255,0.08);
-      cursor:pointer;
-      transition:0.3s;
-      text-align:center;
-      border:1px solid rgba(255,255,255,0.1);
-    }
-
-    .card:hover{
-      transform:translateY(-6px) scale(1.02);
-      background:rgba(34,197,94,0.25);
-    }
-
-    .section{
-      display:none;
-      padding:25px 20px;
-      text-align:center;
-    }
-
-    .active{display:block;}
-
-    .btn{
-      margin-top:15px;
-      padding:10px 18px;
-      border:none;
-      border-radius:10px;
-      background:#22c55e;
-      color:black;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .option{
-      display:block;
-      margin:10px auto;
-      padding:10px;
-      width:80%;
-      background:rgba(255,255,255,0.1);
-      border-radius:10px;
-      cursor:pointer;
-      transition:0.3s;
-    }
-
-    .option:hover{background:rgba(56,189,248,0.3);}
-
-    .score{
-      font-size:22px;
-      margin-top:20px;
-      color:#22c55e;
-    }
-  </style>
+.hidden{display:none;}
+</style>
 </head>
+
 <body>
 
-<nav>
-  <h1>🌿 4-sinf Tabiiy Fan</h1>
-</nav>
+<div class="container">
 
-<div class="hero">
-  <h2>👋 Salom, qadrli o‘quvchi!</h2>
-  <p>TIMSS & PIRLS platformaga xush kelibsiz</p>
+<h2 id="title">🌿 Modda nima?</h2>
+
+<p id="text">Modda — atrofimizdagi barcha narsalarning asosi.</p>
+
+<div id="menu">
+
+<button class="choice" onclick="openTest()">📝 Test</button>
+<button class="choice" onclick="openText()">✍ Matnli savol</button>
+<button class="choice" onclick="openImage()">🖼 Rasmli topshiriq</button>
+
 </div>
 
-<!-- MENU -->
-<div class="menu" id="menu">
-  <div class="card" onclick="startQuiz('modda')">🧪 Modda</div>
-  <div class="card" onclick="startQuiz('suv')">💧 Suv</div>
-  <div class="card" onclick="startQuiz('havo')">🌬 Havo</div>
-  <div class="card" onclick="startQuiz('tabiat')">🌍 Tabiat</div>
-</div>
+<div id="content"></div>
 
-<!-- QUIZ BOX -->
-<div id="quiz" class="section">
-  <h2 id="qtitle"></h2>
-  <div id="question"></div>
-  <div id="options"></div>
-  <button class="btn" onclick="nextQ()">Keyingi ➡</button>
-  <div class="score" id="score"></div>
+<button class="next" onclick="nextTopic()">➡ Keyingi mavzu</button>
+<button class="next" onclick="showResult()">🏁 Natija</button>
+
 </div>
 
 <script>
-const data={
-  modda:[
-    {q:"Modda nima?",o:["Hamma jismlar tarkibi","Faqat suv","Faqat havo","Faqat yorug'lik"],a:0},
-    {q:"Qaysi modda?",o:["Tosh","Quyosh","Yorug'lik","Soy"],a:0}
-  ],
-  suv:[
-    {q:"Suv qanday?",o:["Rangsiz","Qattiq","Yorug'","Qorong'i"],a:0},
-    {q:"Suv manbasi?",o:["Daryo","Tog'","Qum","Yorug'lik"],a:0}
-  ],
-  havo:[
-    {q:"Havo nima?",o:["Ko'rinmaydi","Qattiq","Rangli","Sovuq"],a:0},
-    {q:"Shamol nima?",o:["Havo harakati","Suv","Tosh","Olov"],a:0}
-  ],
-  tabiat:[
-    {q:"Tabiat nima?",o:["Jonli va jonsiz","Faqat suv","Faqat tosh","Faqat odam"],a:0},
-    {q:"O'simlik nima?",o:["Jonli tabiat","Tosh","Suv","Havo"],a:0}
-  ]
-};
 
-let current=[],i=0,score=0;
+let topics=[
+"Modda nima?",
+"Atmosfera",
+"Havoning xossalari",
+"Suv va uning xossalari",
+"Suv manbalari",
+"O‘zbekiston suv manbalari",
+"Suvni asrash",
+"Suv uyga qanday keladi",
+"Toza suv qanday olinadi"
+];
 
-function startQuiz(type){
-  current=data[type];
-  i=0;score=0;
-  document.getElementById('menu').style.display='none';
-  document.getElementById('quiz').classList.add('active');
-  showQ();
+let i=0;
+let score=0;
+
+function loadTopic(){
+document.getElementById("title").innerText=topics[i];
+document.getElementById("content").innerHTML="";
 }
 
-function showQ(){
-  let q=current[i];
-  document.getElementById('qtitle').innerText="Savol " + (i+1);
-  document.getElementById('question').innerText=q.q;
-
-  let opt="";
-  q.o.forEach((o,idx)=>{
-    opt+=`<div class='option' onclick='check(${idx})'>${o}</div>`;
-  });
-  document.getElementById('options').innerHTML=opt;
+function openTest(){
+document.getElementById("content").innerHTML=`
+<p>Modda nima?</p>
+<button onclick="answer(true)">Hamma narsaning tarkibi</button><br>
+<button onclick="answer(false)">Faqat suv</button>
+`;
 }
 
-function check(ans){
-  if(ans===current[i].a) score++;
+function openText(){
+document.getElementById("content").innerHTML=
+"<p>Savol: Bu mavzuni hayotda qayerda ko‘rasan?</p>";
 }
 
-function nextQ(){
-  i++;
-  if(i<current.length){
-    showQ();
-  }else{
-    document.getElementById('question').innerHTML="Tugadi 🎉";
-    document.getElementById('options').innerHTML="";
-    document.getElementById('score').innerText="Natija: " + score + "/" + current.length;
-  }
+function openImage(){
+document.getElementById("content").innerHTML=
+"<p>Rasm topshiriq: suv aylanishini tasavvur qil</p>";
 }
+
+function answer(v){
+if(v) score++;
+alert("Javob qabul qilindi");
+}
+
+function nextTopic(){
+if(i<topics.length-1){
+i++;
+loadTopic();
+}else{
+alert("Oxirgi mavzu");
+}
+}
+
+function showResult(){
+alert("Natija: "+score);
+}
+
+loadTopic();
+
 </script>
 
 </body>
