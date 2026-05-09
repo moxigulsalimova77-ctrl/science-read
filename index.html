@@ -244,6 +244,9 @@ quiz:[
 {q:"Suyuqlikka misol qaysi?",a:["Suv","Kitob","Havo","Qog‘oz"],c:0}
 ]
 },
+
+const data=[
+
 {
 title:"2-MAVZU: Atmosfera",
 text: `Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
@@ -275,7 +278,9 @@ answer:"ha"
 }
 
 ]
+
 },
+
 {
 title:"3-MAVZU: Havo",
 text: `🌬 1. Havo ko‘rinmaydi
@@ -374,13 +379,17 @@ document.getElementById("list").style.display="block";
 }
 
 function quiz(){
-q=0;
-score=0;
+q = 0;
+score = 0;
 
-document.getElementById("lesson").style.display="none";
-document.getElementById("quiz").style.display="block";
+document.getElementById("lesson").style.display = "none";
+document.getElementById("quiz").style.display = "block";
 
-startQuiz();   // ✅ SHU
+if(data[i].tasks){
+    showTask();   // yozma topshiriq
+}else{
+    showQ();      // test
+}
 }
 
 function shuffle(array){
