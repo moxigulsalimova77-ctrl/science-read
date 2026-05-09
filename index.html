@@ -10,9 +10,19 @@
 <style>
 body{
     margin:0;
-    font-family:Arial;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    font-family: 'Segoe UI', Arial;
     color:white;
+    overflow:hidden;
+
+    background: linear-gradient(-45deg, #141e30, #243b55, #1f4037, #99f2c8);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
 /* CENTER */
@@ -139,6 +149,35 @@ button{
 .opt{
     font-size:17px;
     padding:16px;
+}
+
+#home{
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border:1px solid rgba(255,255,255,0.2);
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+.center{
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+button{
+    background: linear-gradient(45deg,#00c6ff,#0072ff);
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.08);
+    box-shadow:0 8px 30px rgba(0,198,255,0.4);
 }
 
 }
