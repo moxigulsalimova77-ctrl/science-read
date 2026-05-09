@@ -9,7 +9,7 @@
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0f766e);
+  background:linear-gradient(135deg,#4f46e5,#06b6d4,#22c55e);
   color:white;
 }
 
@@ -23,11 +23,17 @@ header{
 .container{padding:15px;}
 
 .card{
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.15);
   padding:15px;
   margin:10px 0;
-  border-radius:15px;
+  border-radius:20px;
   cursor:pointer;
+  transition:0.3s;
+  backdrop-filter:blur(10px);
+}
+
+.card:hover{
+  transform:scale(1.03);
 }
 
 button{
@@ -54,10 +60,16 @@ input,textarea{
 
 .option{
   background:rgba(255,255,255,0.15);
-  padding:10px;
-  margin:5px;
-  border-radius:10px;
+  padding:12px;
+  margin:8px 0;
+  border-radius:15px;
   cursor:pointer;
+  transition:0.3s;
+}
+
+.option:hover{
+  background:#38bdf8;
+  transform:scale(1.02);
 }
 </style>
 </head>
@@ -108,7 +120,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 🔐 ADMIN
+let score = 0;
+
+// 🔐 ADMIN LOGIN
 function login(){
   let p = prompt("Admin kod:");
   if(p==="1234"){
@@ -117,8 +131,8 @@ function login(){
   } else alert("Xato kod");
 }
 
-// 📚 LOAD TOPICS
-function loadTopics(){
+// 📚 LOAD
+function load(){
   db.collection("topics").onSnapshot(snap=>{
     let box = document.getElementById("topics");
     box.innerHTML="";
@@ -126,24 +140,21 @@ function loadTopics(){
     snap.forEach(doc=>{
       let d = doc.data();
 
-      box.innerHTML += `
+      box.innerHTML+=`
         <div class="card">
           <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
-          <button class="del" onclick="delTopic('${doc.id}')">O‘chirish</button>
+          <button class="del" onclick="del('${doc.id}')">O‘chirish</button>
         </div>
       `;
     });
   });
 }
 
-// ➕ ADD TOPIC
+// ➕ ADD
 function addTopic(){
-  let t = document.getElementById("title").value;
-  let d = document.getElementById("desc").value;
-
   db.collection("topics").add({
-    title:t,
-    desc:d
+    title:document.getElementById("title").value,
+    desc:document.getElementById("desc").value
   });
 
   document.getElementById("title").value="";
@@ -151,7 +162,7 @@ function addTopic(){
 }
 
 // ❌ DELETE
-function delTopic(id){
+function del(id){
   db.collection("topics").doc(id).delete();
 }
 
@@ -161,19 +172,44 @@ function openTopic(id){
     let d = doc.data();
 
     document.getElementById("lesson").innerHTML=`
-      <h2>${d.title}</h2>
-      <p>${d.desc}</p>
+      <div class="card">
+        <h2>${d.title}</h2>
+        <p>${d.desc}</p>
+      </div>
 
       <h3>📝 Test</h3>
 
-      <div class="option" onclick="alert('To‘g‘ri 👍')">1. Variant A</div>
-      <div class="option" onclick="alert('Noto‘g‘ri ❌')">2. Variant B</div>
-      <div class="option" onclick="alert('Noto‘g‘ri ❌')">3. Variant C</div>
+      <div class="option" onclick="answer(true)">A variant</div>
+      <div class="option" onclick="answer(false)">B variant</div>
+      <div class="option" onclick="answer(false)">C variant</div>
+
+      <h3>✍ PIRLS savol</h3>
+      <textarea placeholder="Javob yozing..."></textarea>
+
+      <h3>🖼 Rasm topshiriq</h3>
+      <div class="option" onclick="answer(true)">To‘g‘ri rasm</div>
+      <div class="option" onclick="answer(false)">Noto‘g‘ri rasm</div>
+
+      <h3>⭐ Ball: ${score}</h3>
     `;
   });
 }
 
-loadTopics();
+// 🎯 ANSWER SYSTEM
+function answer(ok){
+  if(ok){
+    score++;
+    document.body.style.background="linear-gradient(135deg,#22c55e,#16a34a)";
+    alert("🎉 To‘g‘ri +1 ball");
+  } else {
+    document.body.style.background="linear-gradient(135deg,#ef4444,#b91c1c)";
+    alert("❌ Noto‘g‘ri");
+  }
+
+  setTimeout(()=>location.reload(),800);
+}
+
+load();
 </script>
 
 </body>
