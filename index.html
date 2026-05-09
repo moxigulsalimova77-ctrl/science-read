@@ -1,174 +1,190 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>🌿 TIMSS & PIRLS 4-sinf Platforma</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4-sinf Tabiiy Fan Platforma</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e,#22c55e);
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0f766e);
   color:white;
 }
 
-.container{
+.header{
   padding:20px;
   text-align:center;
+  font-size:22px;
 }
 
-h1,h2{
-  font-size:28px;
-}
+.container{padding:15px;}
 
 .card{
   background:rgba(255,255,255,0.08);
-  padding:20px;
-  margin:15px auto;
-  border-radius:18px;
-  max-width:900px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  padding:15px;
+  margin:10px 0;
+  border-radius:15px;
+  cursor:pointer;
 }
 
 button{
-  padding:12px 18px;
-  margin:8px;
+  padding:10px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   cursor:pointer;
-  font-weight:bold;
+  margin:5px;
 }
 
-.btn{
-  background:#38bdf8;
+.admin{
+  background:#f59e0b;
 }
 
-.next{
+.add{
   background:#22c55e;
 }
 
-input{
+.delete{
+  background:#ef4444;
+}
+
+input,textarea{
+  width:100%;
   padding:10px;
-  width:80%;
+  margin:5px 0;
   border-radius:10px;
   border:none;
-  margin-top:10px;
 }
+
+.hidden{display:none;}
 
 .option{
-  display:block;
-  background:rgba(255,255,255,0.12);
-  margin:10px auto;
+  background:rgba(255,255,255,0.1);
   padding:10px;
-  border-radius:12px;
-  width:80%;
-  cursor:pointer;
+  margin:5px;
+  border-radius:10px;
 }
-
-.option:hover{
-  background:rgba(56,189,248,0.3);
-}
-
-.image-box{
-  width:120px;
-  height:120px;
-  display:inline-block;
-  margin:10px;
-  border-radius:12px;
-  background:rgba(255,255,255,0.2);
-  line-height:120px;
-}
-
 </style>
 </head>
+
 <body>
+
+<div class="header">
+👋 Qadrli o‘quvchi! 4-sinf Tabiiy fanlar darsiga xush kelibsan!
+</div>
 
 <div class="container">
 
-<h1>🌿 4-sinf Tabiiy Fan (TIMSS & PIRLS)</h1>
+<button class="admin" onclick="loginAdmin()">Admin</button>
 
-<div class="card">
-<h2 id="title"></h2>
-<p id="desc"></p>
+<div id="adminPanel" class="hidden">
 
-<div id="content"></div>
+<h3>🔐 Admin Panel</h3>
 
-<button class="next" onclick="nextTopic()">➡ Keyingi mavzu</button>
+<input id="title" placeholder="Mavzu nomi">
+<textarea id="text" placeholder="Mavzu tushuntirishi"></textarea>
+
+<button class="add" onclick="addTopic()">+ Qo‘shish</button>
 
 </div>
+
+<h3>📚 Mavzular</h3>
+<div id="topics"></div>
+
+<div id="lesson" class="hidden"></div>
 
 </div>
 
 <script>
 
-const topics=[
+let topics = JSON.parse(localStorage.getItem("topics")) || [
 {
-name:"Modda nima?",
-desc:`Modda — atrofimizdagi hamma narsani tashkil qiladigan material.
-Stol, suv, havo, tosh — hammasi modda.`
+title:"Modda nima?",
+text:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan material.
+Siz ko‘rayotgan stol, kitob, suv, havo — hammasi modda.`,
+test:[
+{q:"Modda nima?",a:["Hamma narsaning materiali","Faqat suv","Faqat havo"],c:0}
+]
 },
 {
-name:"Atmosfera",
-desc:`Atmosfera — Yer sharini o‘rab turgan havo qatlami.
-Biz nafas olayotgan havo uning bir qismi.`
+title:"Atmosfera",
+text:`Atmosfera — Yer sharini o‘rab turgan havo qatlami.`,
+test:[
+{q:"Atmosfera nima?",a:["Havo qatlami","Suv","Tosh"],c:0}
+]
 }
 ];
 
-let i=0;
+function save(){
+localStorage.setItem("topics",JSON.stringify(topics));
+}
 
-function load(){
+function render(){
+let box=document.getElementById("topics");
+box.innerHTML="";
+topics.forEach((t,i)=>{
+box.innerHTML+=`
+<div class="card">
+<h3 onclick="openTopic(${i})">${t.title}</h3>
+<button class="delete" onclick="del(${i})">O‘chirish</button>
+</div>
+`;
+});
+}
+
+function openTopic(i){
 let t=topics[i];
+document.getElementById("lesson").classList.remove("hidden");
 
-document.getElementById("title").innerText=t.name;
-document.getElementById("desc").innerText=t.desc;
+document.getElementById("lesson").innerHTML=`
+<h2>${t.title}</h2>
+<p>${t.text}</p>
 
-// MODDA
-if(i==0){
-  document.getElementById("content").innerHTML=`
-  <h3>📝 Test</h3>
-  <div class='option' onclick='alert("To‘g‘ri!")'>Modda nima?</div>
-
-  <h3>✍ PIRLS savol</h3>
-  <p>3 ta modda yozing:</p>
-  <input placeholder='Javob yozing...'/>
-
-  <h3>🖼 Rasm topshiriq</h3>
-  <p>Qaysi biri modda?</p>
-  <div class='image-box'>🪨 Tosh</div>
-  <div class='image-box'>🌤 Havo</div>
-  `;
+<h3>📝 Test</h3>
+<div>${t.test[0].q}</div>
+${t.test[0].a.map((o,j)=>`
+<div class="option" onclick="check(${j},${t.test[0].c})">${o}</div>
+`).join("")}
+`;
 }
 
-// ATMOSFERA
-if(i==1){
-  document.getElementById("content").innerHTML=`
-  <h3>📝 Test</h3>
-  <div class='option' onclick='alert("To‘g‘ri!")'>Atmosfera nima?</div>
-
-  <h3>✍ PIRLS savol</h3>
-  <p>Atmosfera nimadan iborat?</p>
-  <input placeholder='Javob yozing...'/>
-
-  <h3>🖼 Rasm topshiriq</h3>
-  <p>Atmosferani tanlang:</p>
-  <div class='image-box'>🌊 Daryo</div>
-  <div class='image-box'>🌬 Atmosfera</div>
-  `;
+function check(a,c){
+if(a===c) alert("To‘g‘ri 👍");
+else alert("Noto‘g‘ri ❌");
 }
 
+function addTopic(){
+let t=document.getElementById("title").value;
+let text=document.getElementById("text").value;
+
+topics.push({
+title:t,
+text:text,
+test:[{q:"Savol qo‘shiladi",a:["A","B","C"],c:0}]
+});
+
+save();
+render();
 }
 
-function nextTopic(){
-if(i<topics.length-1){
-  i++;
-  load();
+function del(i){
+topics.splice(i,1);
+save();
+render();
+}
+
+function loginAdmin(){
+let pass=prompt("Admin kodni kiriting:");
+if(pass==="1234"){
+document.getElementById("adminPanel").classList.remove("hidden");
+alert("Admin ochildi");
 }else{
-  alert("Oxirgi mavzu 🎉");
+alert("Xato kod");
 }
 }
 
-load();
+render();
 
 </script>
 
