@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4-sinf Tabiiy Fan Platforma</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>4-sinf Tabiiy fanlar</title>
 
 <style>
 body{
@@ -13,16 +13,17 @@ body{
   color:white;
 }
 
-.header{
+header{
   padding:20px;
   text-align:center;
-  font-size:22px;
+  font-size:20px;
+  font-weight:bold;
 }
 
 .container{padding:15px;}
 
 .card{
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.1);
   padding:15px;
   margin:10px 0;
   border-radius:15px;
@@ -33,21 +34,13 @@ button{
   padding:10px;
   border:none;
   border-radius:10px;
-  cursor:pointer;
   margin:5px;
+  cursor:pointer;
 }
 
-.admin{
-  background:#f59e0b;
-}
-
-.add{
-  background:#22c55e;
-}
-
-.delete{
-  background:#ef4444;
-}
+.admin{background:#f59e0b;}
+.add{background:#22c55e;}
+.del{background:#ef4444;}
 
 input,textarea{
   width:100%;
@@ -60,30 +53,31 @@ input,textarea{
 .hidden{display:none;}
 
 .option{
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.15);
   padding:10px;
   margin:5px;
   border-radius:10px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-👋 Qadrli o‘quvchi! 4-sinf Tabiiy fanlar darsiga xush kelibsan!
-</div>
+<header>
+👋 Qadrli o‘quvchi! 4-sinf Tabiiy fanlar platformasiga xush kelibsan!
+</header>
 
 <div class="container">
 
-<button class="admin" onclick="loginAdmin()">Admin</button>
+<button class="admin" onclick="login()">Admin</button>
 
 <div id="adminPanel" class="hidden">
 
-<h3>🔐 Admin Panel</h3>
+<h3>🛠 Admin panel</h3>
 
 <input id="title" placeholder="Mavzu nomi">
-<textarea id="text" placeholder="Mavzu tushuntirishi"></textarea>
+<textarea id="desc" placeholder="Mavzu matni"></textarea>
 
 <button class="add" onclick="addTopic()">+ Qo‘shish</button>
 
@@ -92,100 +86,94 @@ input,textarea{
 <h3>📚 Mavzular</h3>
 <div id="topics"></div>
 
-<div id="lesson" class="hidden"></div>
+<div id="lesson"></div>
 
 </div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
+// 🔥 Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCcoCX94i2eIMXWyP3wZ2dwDARcECvDMr8",
+  authDomain: "science-read.firebaseapp.com",
+  projectId: "science-read",
+  storageBucket: "science-read.firebasestorage.app",
+  messagingSenderId: "1070431247250",
+  appId: "1:1070431247250:web:423376924d1d29224bff4b"
+};
 
-let topics = JSON.parse(localStorage.getItem("topics")) || [
-{
-title:"Modda nima?",
-text:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan material.
-Siz ko‘rayotgan stol, kitob, suv, havo — hammasi modda.`,
-test:[
-{q:"Modda nima?",a:["Hamma narsaning materiali","Faqat suv","Faqat havo"],c:0}
-]
-},
-{
-title:"Atmosfera",
-text:`Atmosfera — Yer sharini o‘rab turgan havo qatlami.`,
-test:[
-{q:"Atmosfera nima?",a:["Havo qatlami","Suv","Tosh"],c:0}
-]
-}
-];
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-function save(){
-localStorage.setItem("topics",JSON.stringify(topics));
-}
-
-function render(){
-let box=document.getElementById("topics");
-box.innerHTML="";
-topics.forEach((t,i)=>{
-box.innerHTML+=`
-<div class="card">
-<h3 onclick="openTopic(${i})">${t.title}</h3>
-<button class="delete" onclick="del(${i})">O‘chirish</button>
-</div>
-`;
-});
+// 🔐 ADMIN
+function login(){
+  let p = prompt("Admin kod:");
+  if(p==="1234"){
+    document.getElementById("adminPanel").classList.remove("hidden");
+    alert("Admin ochildi");
+  } else alert("Xato kod");
 }
 
-function openTopic(i){
-let t=topics[i];
-document.getElementById("lesson").classList.remove("hidden");
+// 📚 LOAD TOPICS
+function loadTopics(){
+  db.collection("topics").onSnapshot(snap=>{
+    let box = document.getElementById("topics");
+    box.innerHTML="";
 
-document.getElementById("lesson").innerHTML=`
-<h2>${t.title}</h2>
-<p>${t.text}</p>
+    snap.forEach(doc=>{
+      let d = doc.data();
 
-<h3>📝 Test</h3>
-<div>${t.test[0].q}</div>
-${t.test[0].a.map((o,j)=>`
-<div class="option" onclick="check(${j},${t.test[0].c})">${o}</div>
-`).join("")}
-`;
+      box.innerHTML += `
+        <div class="card">
+          <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
+          <button class="del" onclick="delTopic('${doc.id}')">O‘chirish</button>
+        </div>
+      `;
+    });
+  });
 }
 
-function check(a,c){
-if(a===c) alert("To‘g‘ri 👍");
-else alert("Noto‘g‘ri ❌");
-}
-
+// ➕ ADD TOPIC
 function addTopic(){
-let t=document.getElementById("title").value;
-let text=document.getElementById("text").value;
+  let t = document.getElementById("title").value;
+  let d = document.getElementById("desc").value;
 
-topics.push({
-title:t,
-text:text,
-test:[{q:"Savol qo‘shiladi",a:["A","B","C"],c:0}]
-});
+  db.collection("topics").add({
+    title:t,
+    desc:d
+  });
 
-save();
-render();
+  document.getElementById("title").value="";
+  document.getElementById("desc").value="";
 }
 
-function del(i){
-topics.splice(i,1);
-save();
-render();
+// ❌ DELETE
+function delTopic(id){
+  db.collection("topics").doc(id).delete();
 }
 
-function loginAdmin(){
-let pass=prompt("Admin kodni kiriting:");
-if(pass==="1234"){
-document.getElementById("adminPanel").classList.remove("hidden");
-alert("Admin ochildi");
-}else{
-alert("Xato kod");
-}
+// 📖 OPEN TOPIC
+function openTopic(id){
+  db.collection("topics").doc(id).get().then(doc=>{
+    let d = doc.data();
+
+    document.getElementById("lesson").innerHTML=`
+      <h2>${d.title}</h2>
+      <p>${d.desc}</p>
+
+      <h3>📝 Test</h3>
+
+      <div class="option" onclick="alert('To‘g‘ri 👍')">1. Variant A</div>
+      <div class="option" onclick="alert('Noto‘g‘ri ❌')">2. Variant B</div>
+      <div class="option" onclick="alert('Noto‘g‘ri ❌')">3. Variant C</div>
+    `;
+  });
 }
 
-render();
-
+loadTopics();
 </script>
 
 </body>
