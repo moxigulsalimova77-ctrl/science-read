@@ -1,285 +1,134 @@
-<!DOCTYPE html>
-<html lang="uz">
-<head>
-<meta charset="UTF-8">
-<title>4-Sinf Tabiiy Fan Platforma</title>
+const data = [
 
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#e3f2fd,#e8f5e9);
-}
-
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:20px;
-}
-
-.card{
-    background:white;
-    padding:20px;
-    margin:15px 0;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-button{
-    padding:10px;
-    margin:5px;
-    width:100%;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:16px;
-    background:#1976d2;
-    color:white;
-}
-
-button:hover{
-    background:#0d47a1;
-}
-
-h1,h2{
-    text-align:center;
-}
-pre{
-    white-space:pre-wrap;
-}
-</style>
-
-</head>
-<body>
-
-<div class="container">
-
-<h1>🌿 4-SINF TABIIY FAN PLATFORMA</h1>
-
-<div id="home">
-
-<div class="card">
-<h2>1-MAVZU: Modda</h2>
-<button onclick="openLesson(0)">Mavzuni ochish</button>
-</div>
-
-<div class="card">
-<h2>2-MAVZU: Atmosfera</h2>
-<button onclick="openLesson(1)">Mavzuni ochish</button>
-</div>
-
-<div class="card">
-<h2>3-MAVZU: Havoning xossalari</h2>
-<button onclick="openLesson(2)">Mavzuni ochish</button>
-</div>
-
-<div class="card">
-<h2>4-MAVZU: Suv va uning xossalari</h2>
-<button onclick="openLesson(3)">Mavzuni ochish</button>
-</div>
-
-<div class="card">
-<h2>5-MAVZU: Suv manbalari</h2>
-<button onclick="openLesson(4)">Mavzuni ochish</button>
-</div>
-
-</div>
-
-<!-- LESSON -->
-<div id="lesson" style="display:none;" class="card">
-<h2 id="title"></h2>
-<pre id="content"></pre>
-
-<button onclick="startQuiz()">🎮 Testni boshlash</button>
-<button onclick="backHome()">⬅ Orqaga</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" style="display:none;" class="card">
-<h2 id="question"></h2>
-<div id="answers"></div>
-</div>
-
-<!-- RESULT -->
-<div id="result" style="display:none;" class="card">
-<h2>🏆 Natija</h2>
-<h3 id="score"></h3>
-<button onclick="backHome()">Boshiga qaytish</button>
-</div>
-
-</div>
-
-<script>
-
-let current=0;
-let qIndex=0;
-let score=0;
-
-const data=[
 {
 title:"1-MAVZU: Modda",
 content:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
+
 Oddiy qilib aytganda:
-• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat. 
-• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo). 
+• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat.
+• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo).
 
 📌 Misol:
-• Siz ichayotgan suv — modda 
-• Nafas olayotgan havo — modda 
-• Qo‘lingizdagi qalam — modda 
+• Siz ichayotgan suv — modda
+• Nafas olayotgan havo — modda
+• Qo‘lingizdagi qalam — modda
 
 Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
+
 quiz:[
 {
 q:"Modda nima?",
-a:["Jismlarni tashkil qiladigan material","Faqat suv","Faqat havo","Yorug‘lik"],
+a:[
+"Jismlarni tashkil qiladigan material",
+"Faqat suv",
+"Faqat havo",
+"Faqat yorug‘lik"
+],
+c:0
+},
+{
+q:"Qaysi biri modda?",
+a:["Kitob","Yorug‘lik","Issiqlik","Ovoz"],
 c:0
 }
-]
+],
+
+write:"3 ta modda misolini yozing",
+imageTask:"Qaysi biri modda? (rasm 2 ta: stol va yorug‘lik)"
 },
 
 {
 title:"2-MAVZU: Atmosfera",
 content:`Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
+
 Oddiy qilib aytganda:
-• Biz nafas olayotgan havo atmosferaning bir qismi. 
-• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi. 
+• Biz nafas olayotgan havo atmosferaning bir qismi.
+• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi.
 
 📌 Atmosfera nima uchun kerak?
-• Bizga nafas olish uchun havo beradi 
-• Yerni Quyoshning juda issiq nurlaridan himoya qiladi 
-• Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi 
+• Nafas olish uchun havo beradi
+• Yerni Quyosh nurlaridan himoya qiladi
+• Ob-havo hodisalari shu yerda bo‘ladi
 
-👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
+👉 Atmosfera — hayot uchun juda muhim.`,
+
 quiz:[
 {
 q:"Atmosfera nima?",
-a:["Suv qatlami","Havo qatlami","Tosh","Olov"],
-c:1
+a:["Havo qatlami","Suv","Tosh","Olov"],
+c:0
 }
-]
+],
+
+write:"Atmosfera nimadan iborat?",
+imageTask:"Atmosfera va daryo rasmi (tanlash)"
 },
 
 {
 title:"3-MAVZU: Havoning xossalari",
-content:`🌬 1. Havo ko‘rinmaydi
-• Biz havoni ko‘rmaymiz, lekin u bor. 
+content:`Havo ko‘rinmaydi, lekin bor.
 
-🌬 2. Havo hid va rangga ega emas
-• Havo odatda rangsiz va hidsiz bo‘ladi. 
+Xossalari:
+• ko‘rinmaydi
+• hidsiz
+• rangsiz
+• hamma joyni egallaydi
+• siqiladi va kengayadi`,
 
-🌬 3. Havo hamma joyni egallaydi
-• Bo‘sh idishning ichini ham havo to‘ldiradi. 
-
-🌬 4. Havo bosimga ega
-• Havo bosadi, shuning uchun shamol esadi. 
-
-🌬 5. Havo siqiladi va kengayadi
-• Havo siqilsa kichrayadi, bo‘shatilsa kengayadi. 
-
-👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor.`,
 quiz:[
 {
 q:"Havo qanday?",
-a:["Ko‘rinadi","Rangsiz","Qattiq","Suv"],
-c:1
+a:["Ko‘rinmaydi","Qattiq","Suv","Tosh"],
+c:0
 }
-]
+],
+
+write:"Havoning 2 xossasini yozing",
+imageTask:"Havo bor joyni tanlang"
 },
 
 {
 title:"4-MAVZU: Suv va uning xossalari",
-content:`Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, yuvinadigan va o‘simliklar o‘sishi uchun kerak bo‘ladigan narsa — suvdir.
+content:`Suv — hayot uchun eng muhim modda.
 
-💧 Suvning xossalari (xususiyatlari):
-1. Suv shaffof (tiniq)
-2. Suvning o‘ziga xos rangi va hidi yo‘q
-3. Suv suyuq
-4. Suv muzlashi va bug‘lanishi mumkin
-5. Suv hayot uchun juda zarur
+Xossalari:
+• shaffof
+• hidsiz
+• rangsiz
+• suyuq
+• muzlaydi va bug‘lanadi`,
 
-👉 Xulosa: Suv — rangsiz, hidsiz, suyuq modda bo‘lib, hayot uchun juda muhim.`,
 quiz:[
 {
 q:"Suv qanday?",
-a:["Shaffof","Qattiq","Tosh","Gaz"],
+a:["Shaffof","Qattiq","Gaz","Tosh"],
 c:0
 }
-]
+],
+
+write:"Suv nima uchun kerak?",
+imageTask:"Suv va tosh (tanlash)"
 },
 
 {
 title:"5-MAVZU: Suv manbalari",
-content:`💧 Asosiy suv manbalari:
+content:`Suv manbalari:
+• daryo
+• ko‘l
+• dengiz
+• buloq
+• yer osti suvlari`,
 
-1. Daryolar 🌊
-2. Ko‘llar 🏞
-3. Dengiz va okeanlar 🌊
-4. Buloqlar 💦
-5. Yer osti suvlari 🌍
-
-👉 Xulosa: Suv manbalari — bizga suv beradigan tabiiy joylar.`,
 quiz:[
 {
 q:"Daryo nima?",
-a:["Suv manbai","Tog‘","Bulut","Yorug‘lik"],
+a:["Suv manbai","Tog‘","Olov","Bulut"],
 c:0
 }
-]
+],
+
+write:"2 ta suv manbasi yozing",
+imageTask:"Daryo yoki tog‘ (tanlash)"
 }
 
 ];
-
-function openLesson(i){
-document.getElementById("home").style.display="none";
-document.getElementById("lesson").style.display="block";
-current=i;
-document.getElementById("title").innerText=data[i].title;
-document.getElementById("content").innerText=data[i].content;
-}
-
-function startQuiz(){
-qIndex=0;
-score=0;
-document.getElementById("lesson").style.display="none";
-document.getElementById("quiz").style.display="block";
-showQ();
-}
-
-function showQ(){
-let q=data[current].quiz[qIndex];
-document.getElementById("question").innerText=q.q;
-
-let ans=document.getElementById("answers");
-ans.innerHTML="";
-
-q.a.forEach((text,i)=>{
-let btn=document.createElement("button");
-btn.innerText=text;
-btn.onclick=()=>{
-if(i===q.c){score++;}
-next();
-};
-ans.appendChild(btn);
-});
-}
-
-function next(){
-qIndex++;
-if(qIndex<data[current].quiz.length){
-showQ();
-}else{
-document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="block";
-document.getElementById("score").innerText=score+" / "+data[current].quiz.length;
-}
-}
-
-function backHome(){
-location.reload();
-}
-
-</script>
-
-</body>
-</html>
