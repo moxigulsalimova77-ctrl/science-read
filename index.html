@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌿 TIMSS PIRLS Platforma</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌿 TIMSS & PIRLS 4-sinf Platforma</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0f766e);
+  background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e,#22c55e);
   color:white;
 }
 
@@ -18,22 +18,29 @@ body{
   text-align:center;
 }
 
+h1,h2{
+  font-size:28px;
+}
+
 .card{
   background:rgba(255,255,255,0.08);
   padding:20px;
-  margin:10px;
-  border-radius:15px;
+  margin:15px auto;
+  border-radius:18px;
+  max-width:900px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
 }
 
 button{
-  padding:10px;
-  margin:5px;
+  padding:12px 18px;
+  margin:8px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
+  font-weight:bold;
 }
 
-.choice{
+.btn{
   background:#38bdf8;
 }
 
@@ -41,92 +48,127 @@ button{
   background:#22c55e;
 }
 
-.hidden{display:none;}
+input{
+  padding:10px;
+  width:80%;
+  border-radius:10px;
+  border:none;
+  margin-top:10px;
+}
+
+.option{
+  display:block;
+  background:rgba(255,255,255,0.12);
+  margin:10px auto;
+  padding:10px;
+  border-radius:12px;
+  width:80%;
+  cursor:pointer;
+}
+
+.option:hover{
+  background:rgba(56,189,248,0.3);
+}
+
+.image-box{
+  width:120px;
+  height:120px;
+  display:inline-block;
+  margin:10px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.2);
+  line-height:120px;
+}
+
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h2 id="title">🌿 Modda nima?</h2>
+<h1>🌿 4-sinf Tabiiy Fan (TIMSS & PIRLS)</h1>
 
-<p id="text">Modda — atrofimizdagi barcha narsalarning asosi.</p>
-
-<div id="menu">
-
-<button class="choice" onclick="openTest()">📝 Test</button>
-<button class="choice" onclick="openText()">✍ Matnli savol</button>
-<button class="choice" onclick="openImage()">🖼 Rasmli topshiriq</button>
-
-</div>
+<div class="card">
+<h2 id="title"></h2>
+<p id="desc"></p>
 
 <div id="content"></div>
 
 <button class="next" onclick="nextTopic()">➡ Keyingi mavzu</button>
-<button class="next" onclick="showResult()">🏁 Natija</button>
+
+</div>
 
 </div>
 
 <script>
 
-let topics=[
-"Modda nima?",
-"Atmosfera",
-"Havoning xossalari",
-"Suv va uning xossalari",
-"Suv manbalari",
-"O‘zbekiston suv manbalari",
-"Suvni asrash",
-"Suv uyga qanday keladi",
-"Toza suv qanday olinadi"
+const topics=[
+{
+name:"Modda nima?",
+desc:`Modda — atrofimizdagi hamma narsani tashkil qiladigan material.
+Stol, suv, havo, tosh — hammasi modda.`
+},
+{
+name:"Atmosfera",
+desc:`Atmosfera — Yer sharini o‘rab turgan havo qatlami.
+Biz nafas olayotgan havo uning bir qismi.`
+}
 ];
 
 let i=0;
-let score=0;
 
-function loadTopic(){
-document.getElementById("title").innerText=topics[i];
-document.getElementById("content").innerHTML="";
+function load(){
+let t=topics[i];
+
+document.getElementById("title").innerText=t.name;
+document.getElementById("desc").innerText=t.desc;
+
+// MODDA
+if(i==0){
+  document.getElementById("content").innerHTML=`
+  <h3>📝 Test</h3>
+  <div class='option' onclick='alert("To‘g‘ri!")'>Modda nima?</div>
+
+  <h3>✍ PIRLS savol</h3>
+  <p>3 ta modda yozing:</p>
+  <input placeholder='Javob yozing...'/>
+
+  <h3>🖼 Rasm topshiriq</h3>
+  <p>Qaysi biri modda?</p>
+  <div class='image-box'>🪨 Tosh</div>
+  <div class='image-box'>🌤 Havo</div>
+  `;
 }
 
-function openTest(){
-document.getElementById("content").innerHTML=`
-<p>Modda nima?</p>
-<button onclick="answer(true)">Hamma narsaning tarkibi</button><br>
-<button onclick="answer(false)">Faqat suv</button>
-`;
+// ATMOSFERA
+if(i==1){
+  document.getElementById("content").innerHTML=`
+  <h3>📝 Test</h3>
+  <div class='option' onclick='alert("To‘g‘ri!")'>Atmosfera nima?</div>
+
+  <h3>✍ PIRLS savol</h3>
+  <p>Atmosfera nimadan iborat?</p>
+  <input placeholder='Javob yozing...'/>
+
+  <h3>🖼 Rasm topshiriq</h3>
+  <p>Atmosferani tanlang:</p>
+  <div class='image-box'>🌊 Daryo</div>
+  <div class='image-box'>🌬 Atmosfera</div>
+  `;
 }
 
-function openText(){
-document.getElementById("content").innerHTML=
-"<p>Savol: Bu mavzuni hayotda qayerda ko‘rasan?</p>";
-}
-
-function openImage(){
-document.getElementById("content").innerHTML=
-"<p>Rasm topshiriq: suv aylanishini tasavvur qil</p>";
-}
-
-function answer(v){
-if(v) score++;
-alert("Javob qabul qilindi");
 }
 
 function nextTopic(){
 if(i<topics.length-1){
-i++;
-loadTopic();
+  i++;
+  load();
 }else{
-alert("Oxirgi mavzu");
+  alert("Oxirgi mavzu 🎉");
 }
 }
 
-function showResult(){
-alert("Natija: "+score);
-}
-
-loadTopic();
+load();
 
 </script>
 
