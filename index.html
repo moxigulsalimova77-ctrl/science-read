@@ -3,37 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Science Read</title>
+  <title>4-sinf Tabiiy Fan Platforma</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
 
     body{
-      background:linear-gradient(135deg,#0f172a,#1e293b);
+      background:linear-gradient(135deg,#0b1320,#1e3a8a,#0f766e);
       color:white;
       min-height:100vh;
     }
 
-    /* NAVBAR */
     nav{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:20px 40px;
-      background:rgba(0,0,0,0.3);
+      padding:18px 30px;
+      background:rgba(0,0,0,0.35);
+      backdrop-filter:blur(10px);
       position:sticky;
       top:0;
-      backdrop-filter:blur(10px);
     }
 
     nav h1{
-      font-size:22px;
+      font-size:20px;
       color:#38bdf8;
     }
 
     nav ul{
       display:flex;
       list-style:none;
-      gap:20px;
+      gap:15px;
+      font-size:14px;
     }
 
     nav ul li{
@@ -42,31 +42,29 @@
     }
 
     nav ul li:hover{
-      color:#38bdf8;
+      color:#22c55e;
     }
 
-    /* HERO */
     .hero{
       text-align:center;
-      padding:100px 20px;
+      padding:80px 20px;
     }
 
     .hero h2{
-      font-size:48px;
-      margin-bottom:20px;
+      font-size:40px;
+      margin-bottom:10px;
     }
 
     .hero p{
-      font-size:18px;
       opacity:0.8;
-      margin-bottom:30px;
+      margin-bottom:20px;
     }
 
     .btn{
-      padding:12px 25px;
-      background:#38bdf8;
+      padding:12px 22px;
+      background:#22c55e;
       border:none;
-      border-radius:8px;
+      border-radius:10px;
       color:black;
       font-weight:bold;
       cursor:pointer;
@@ -77,9 +75,8 @@
       transform:scale(1.05);
     }
 
-    /* CARDS */
     .section{
-      padding:60px 20px;
+      padding:40px 20px;
       text-align:center;
     }
 
@@ -87,69 +84,92 @@
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
-      gap:20px;
-      margin-top:30px;
+      gap:15px;
+      margin-top:20px;
     }
 
     .card{
-      background:rgba(255,255,255,0.1);
-      padding:20px;
-      border-radius:12px;
-      width:250px;
+      background:rgba(255,255,255,0.08);
+      padding:18px;
+      border-radius:14px;
+      width:260px;
       transition:0.3s;
+      cursor:pointer;
     }
 
     .card:hover{
-      transform:translateY(-5px);
-      background:rgba(56,189,248,0.2);
+      transform:translateY(-6px);
+      background:rgba(34,197,94,0.2);
     }
 
     footer{
       text-align:center;
       padding:20px;
-      margin-top:40px;
       opacity:0.6;
+      margin-top:30px;
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <h1>Science Read</h1>
+    <h1>🌿 Tabiiy Fan 4-sinf</h1>
     <ul>
-      <li>Home</li>
-      <li>Courses</li>
-      <li>About</li>
-      <li>Contact</li>
+      <li>Bosh sahifa</li>
+      <li>Darslar</li>
+      <li>Topshiriqlar</li>
+      <li>Aloqa</li>
     </ul>
   </nav>
 
   <section class="hero">
-    <h2>Ilmiy Platforma 🚀</h2>
-    <p>Bilim o‘rganish uchun zamonaviy web sayt</p>
-    <button class="btn" onclick="alert('Welcome to Science Read!')">Boshlash</button>
+    <h2>🚀 Tabiiy Fan Platforma</h2>
+    <p>4-sinf o‘quvchilari uchun qiziqarli darslar va topshiriqlar</p>
+    <button class="btn" onclick="alert('Dars boshlandi! 🌱')">Boshlash</button>
   </section>
 
   <section class="section">
-    <h2>Bo‘limlar</h2>
+    <h2>📚 Dars Bo‘limlari</h2>
     <div class="cards">
       <div class="card">
-        <h3>📘 Matematika</h3>
-        <p>Formulalar va misollar</p>
+        <h3>🌍 Tabiat</h3>
+        <p>Yer, suv, havo va tabiat hodisalari</p>
       </div>
       <div class="card">
-        <h3>🔬 Fizika</h3>
-        <p>Ilmiy qonunlar</p>
+        <h3>🌱 O‘simliklar</h3>
+        <p>O‘simliklarning turlari va o‘sishi</p>
       </div>
       <div class="card">
-        <h3>🧪 Kimyo</h3>
-        <p>Reaksiyalar va elementlar</p>
+        <h3>🐾 Hayvonlar</h3>
+        <p>Hayvonlar olami va ularning yashash joyi</p>
+      </div>
+      <div class="card">
+        <h3>🌞 Ob-havo</h3>
+        <p>Fasllar va ob-havo o‘zgarishi</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>📝 Topshiriqlar</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Test 1</h3>
+        <p>Tabiat elementlarini top</p>
+      </div>
+      <div class="card">
+        <h3>Test 2</h3>
+        <p>O‘simliklarni ajrat</p>
+      </div>
+      <div class="card">
+        <h3>Test 3</h3>
+        <p>Hayvonlarni guruhlash</p>
       </div>
     </div>
   </section>
 
   <footer>
-    © 2026 Science Read | Created with GitHub Pages
+    © 2026 4-sinf Tabiiy Fan Platforma | GitHub Pages
   </footer>
 
 </body>
