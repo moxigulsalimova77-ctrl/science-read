@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>4-sinf Tabiiy Fan Platforma</title>
+  <title>🌿 4-sinf Tabiiy Fan - TIMSS & PIRLS</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
 
     body{
-      background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e);
+      background:linear-gradient(135deg,#0b1020,#1e3a8a,#0f766e,#22c55e);
       color:white;
       min-height:100vh;
+      overflow-x:hidden;
     }
 
     nav{
@@ -22,6 +23,7 @@
       backdrop-filter:blur(10px);
       position:sticky;
       top:0;
+      z-index:10;
     }
 
     nav h1{
@@ -31,17 +33,12 @@
 
     .hero{
       text-align:center;
-      padding:70px 20px 40px;
+      padding:60px 20px 30px;
     }
 
     .hero h2{
-      font-size:34px;
+      font-size:32px;
       margin-bottom:10px;
-    }
-
-    .hero p{
-      opacity:0.8;
-      margin-bottom:20px;
     }
 
     .menu{
@@ -53,100 +50,145 @@
     }
 
     .card{
-      width:250px;
+      width:240px;
       padding:18px;
-      border-radius:14px;
+      border-radius:15px;
       background:rgba(255,255,255,0.08);
       cursor:pointer;
       transition:0.3s;
       text-align:center;
+      border:1px solid rgba(255,255,255,0.1);
     }
 
     .card:hover{
-      transform:translateY(-6px);
-      background:rgba(56,189,248,0.25);
+      transform:translateY(-6px) scale(1.02);
+      background:rgba(34,197,94,0.25);
     }
 
     .section{
       display:none;
-      padding:30px 20px;
+      padding:25px 20px;
       text-align:center;
     }
 
-    .active{
-      display:block;
-    }
+    .active{display:block;}
 
-    .back{
-      margin-top:20px;
+    .btn{
+      margin-top:15px;
       padding:10px 18px;
       border:none;
-      border-radius:8px;
+      border-radius:10px;
       background:#22c55e;
-      cursor:pointer;
+      color:black;
       font-weight:bold;
+      cursor:pointer;
+    }
+
+    .option{
+      display:block;
+      margin:10px auto;
+      padding:10px;
+      width:80%;
+      background:rgba(255,255,255,0.1);
+      border-radius:10px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .option:hover{background:rgba(56,189,248,0.3);}
+
+    .score{
+      font-size:22px;
+      margin-top:20px;
+      color:#22c55e;
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <h1>🌿 4-sinf Tabiiy Fan</h1>
-  </nav>
+<nav>
+  <h1>🌿 4-sinf Tabiiy Fan</h1>
+</nav>
 
-  <section class="hero">
-    <h2>👋 Salom, qadrli o‘quvchi!</h2>
-    <p>Bugun qaysi turdagi mashg‘ulotni tanlaysan?</p>
-  </section>
+<div class="hero">
+  <h2>👋 Salom, qadrli o‘quvchi!</h2>
+  <p>TIMSS & PIRLS platformaga xush kelibsiz</p>
+</div>
 
-  <section class="menu" id="menu">
-    <div class="card" onclick="openSection('test')">
-      <h3>📝 Testlar</h3>
-      <p>Bilimingni sinab ko‘r</p>
-    </div>
+<!-- MENU -->
+<div class="menu" id="menu">
+  <div class="card" onclick="startQuiz('modda')">🧪 Modda</div>
+  <div class="card" onclick="startQuiz('suv')">💧 Suv</div>
+  <div class="card" onclick="startQuiz('havo')">🌬 Havo</div>
+  <div class="card" onclick="startQuiz('tabiat')">🌍 Tabiat</div>
+</div>
 
-    <div class="card" onclick="openSection('text')">
-      <h3>📘 Matnli mashqlar</h3>
-      <p>Mavzuni o‘qib o‘rgan</p>
-    </div>
+<!-- QUIZ BOX -->
+<div id="quiz" class="section">
+  <h2 id="qtitle"></h2>
+  <div id="question"></div>
+  <div id="options"></div>
+  <button class="btn" onclick="nextQ()">Keyingi ➡</button>
+  <div class="score" id="score"></div>
+</div>
 
-    <div class="card" onclick="openSection('image')">
-      <h3>🖼 Rasmli mashqlar</h3>
-      <p>Rasm orqali o‘rgan</p>
-    </div>
-  </section>
+<script>
+const data={
+  modda:[
+    {q:"Modda nima?",o:["Hamma jismlar tarkibi","Faqat suv","Faqat havo","Faqat yorug'lik"],a:0},
+    {q:"Qaysi modda?",o:["Tosh","Quyosh","Yorug'lik","Soy"],a:0}
+  ],
+  suv:[
+    {q:"Suv qanday?",o:["Rangsiz","Qattiq","Yorug'","Qorong'i"],a:0},
+    {q:"Suv manbasi?",o:["Daryo","Tog'","Qum","Yorug'lik"],a:0}
+  ],
+  havo:[
+    {q:"Havo nima?",o:["Ko'rinmaydi","Qattiq","Rangli","Sovuq"],a:0},
+    {q:"Shamol nima?",o:["Havo harakati","Suv","Tosh","Olov"],a:0}
+  ],
+  tabiat:[
+    {q:"Tabiat nima?",o:["Jonli va jonsiz","Faqat suv","Faqat tosh","Faqat odam"],a:0},
+    {q:"O'simlik nima?",o:["Jonli tabiat","Tosh","Suv","Havo"],a:0}
+  ]
+};
 
-  <section id="test" class="section">
-    <h2>📝 Testlar bo‘limi</h2>
-    <p>1. Tabiat necha qismdan iborat?</p>
-    <p>A) 2  B) 3  C) 4</p>
-    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
-  </section>
+let current=[],i=0,score=0;
 
-  <section id="text" class="section">
-    <h2>📘 Matnli mashqlar</h2>
-    <p>Tabiat — bu bizni o‘rab turgan yer, suv, havo va barcha tirik organizmlar.</p>
-    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
-  </section>
+function startQuiz(type){
+  current=data[type];
+  i=0;score=0;
+  document.getElementById('menu').style.display='none';
+  document.getElementById('quiz').classList.add('active');
+  showQ();
+}
 
-  <section id="image" class="section">
-    <h2>🖼 Rasmli mashqlar</h2>
-    <p>O‘simlik va hayvonlarni rasmlar orqali o‘rganamiz.</p>
-    <button class="back" onclick="backMenu()">⬅ Orqaga</button>
-  </section>
+function showQ(){
+  let q=current[i];
+  document.getElementById('qtitle').innerText="Savol " + (i+1);
+  document.getElementById('question').innerText=q.q;
 
-  <script>
-    function openSection(id){
-      document.getElementById('menu').style.display='none';
-      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+  let opt="";
+  q.o.forEach((o,idx)=>{
+    opt+=`<div class='option' onclick='check(${idx})'>${o}</div>`;
+  });
+  document.getElementById('options').innerHTML=opt;
+}
 
-    function backMenu(){
-      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-      document.getElementById('menu').style.display='flex';
-    }
-  </script>
+function check(ans){
+  if(ans===current[i].a) score++;
+}
+
+function nextQ(){
+  i++;
+  if(i<current.length){
+    showQ();
+  }else{
+    document.getElementById('question').innerHTML="Tugadi 🎉";
+    document.getElementById('options').innerHTML="";
+    document.getElementById('score').innerText="Natija: " + score + "/" + current.length;
+  }
+}
+</script>
 
 </body>
 </html>
