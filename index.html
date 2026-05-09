@@ -1,124 +1,158 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>4-Sinf Tabiiy Fan Platforma</title>
+<title>4-Sinf Tabiiy Fan PRO</title>
 
 <style>
 body{
     margin:0;
     font-family:Arial;
-    background:linear-gradient(135deg,#e3f2fd,#e8f5e9);
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
 }
 
+/* CENTER */
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    flex-direction:column;
+    text-align:center;
+}
+
+/* BUTTON */
+button{
+    padding:12px 20px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    margin-top:10px;
+    background:#00c6ff;
+    color:white;
+    transition:0.3s;
+}
+button:hover{
+    background:#0072ff;
+    transform:scale(1.05);
+}
+
+/* CARDS */
+.card{
+    background:white;
+    color:black;
+    padding:15px;
+    margin:10px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* CONTAINER */
 .container{
     max-width:900px;
     margin:auto;
     padding:20px;
 }
 
-.card{
-    background:white;
-    padding:20px;
-    margin:15px 0;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
-
-button{
-    padding:10px;
-    margin:5px;
+/* QUIZ BUTTONS */
+.opt{
+    display:block;
     width:100%;
-    border:none;
+    margin:8px 0;
+    padding:10px;
     border-radius:10px;
+    border:none;
     cursor:pointer;
-    font-size:16px;
-    background:#1976d2;
-    color:white;
+    background:#eee;
 }
 
-button:hover{
-    background:#0d47a1;
+.opt:hover{
+    background:#ddd;
 }
 
-h1,h2{
+/* TOP BAR */
+.top{
+    background:rgba(0,0,0,0.3);
+    padding:10px;
     text-align:center;
-}
-pre{
-    white-space:pre-wrap;
 }
 </style>
 
 </head>
+
 <body>
 
-<div class="container">
-
-<h1>🌿 4-SINF TABIIY FAN PLATFORMA</h1>
-
-<div id="home">
-
-<div class="card">
-<h2>1-MAVZU: Modda</h2>
-<button onclick="openLesson(0)">Mavzuni ochish</button>
+<div id="home" class="center">
+    <h1>🌿 4-SINF TABIIY FAN</h1>
+    <p>PRO Interaktiv O‘quv Platforma</p>
+    <button onclick="start()">🚀 Boshlash</button>
 </div>
 
-<div class="card">
-<h2>2-MAVZU: Atmosfera</h2>
-<button onclick="openLesson(1)">Mavzuni ochish</button>
-</div>
+<!-- LESSON LIST -->
+<div id="list" class="container" style="display:none;">
+    <h2>📚 Mavzular</h2>
 
-<div class="card">
-<h2>3-MAVZU: Havoning xossalari</h2>
-<button onclick="openLesson(2)">Mavzuni ochish</button>
-</div>
+    <div class="card">
+        <h3>1-MAVZU: Modda</h3>
+        <button onclick="openLesson(0)">Ochish</button>
+    </div>
 
-<div class="card">
-<h2>4-MAVZU: Suv va uning xossalari</h2>
-<button onclick="openLesson(3)">Mavzuni ochish</button>
-</div>
+    <div class="card">
+        <h3>2-MAVZU: Atmosfera</h3>
+        <button onclick="openLesson(1)">Ochish</button>
+    </div>
 
-<div class="card">
-<h2>5-MAVZU: Suv manbalari</h2>
-<button onclick="openLesson(4)">Mavzuni ochish</button>
-</div>
+    <div class="card">
+        <h3>3-MAVZU: Havo xossalari</h3>
+        <button onclick="openLesson(2)">Ochish</button>
+    </div>
 
+    <div class="card">
+        <h3>4-MAVZU: Suv</h3>
+        <button onclick="openLesson(3)">Ochish</button>
+    </div>
+
+    <div class="card">
+        <h3>5-MAVZU: Suv manbalari</h3>
+        <button onclick="openLesson(4)">Ochish</button>
+    </div>
 </div>
 
 <!-- LESSON -->
-<div id="lesson" style="display:none;" class="card">
-<h2 id="title"></h2>
-<pre id="content"></pre>
+<div id="lesson" class="container" style="display:none;">
+    <h2 id="title"></h2>
+    <p id="text"></p>
 
-<button onclick="startQuiz()">🎮 Testni boshlash</button>
-<button onclick="backHome()">⬅ Orqaga</button>
+    <button onclick="quiz()">🎮 Testga o‘tish</button>
+    <button onclick="back()">⬅ Orqaga</button>
 </div>
 
 <!-- QUIZ -->
-<div id="quiz" style="display:none;" class="card">
-<h2 id="question"></h2>
-<div id="answers"></div>
+<div id="quiz" class="container" style="display:none;">
+    <h2 id="q"></h2>
+    <div id="answers"></div>
 </div>
 
 <!-- RESULT -->
-<div id="result" style="display:none;" class="card">
-<h2>🏆 Natija</h2>
-<h3 id="score"></h3>
-<button onclick="backHome()">Boshiga qaytish</button>
-</div>
-
+<div id="result" class="center" style="display:none;">
+    <h1>🏆 Natija</h1>
+    <h2 id="score"></h2>
+    <button onclick="location.reload()">Qayta boshlash</button>
 </div>
 
 <script>
 
-let current=0;
-let qIndex=0;
+let i=0;
+let q=0;
 let score=0;
 
 const data=[
 {
 title:"1-MAVZU: Modda",
-content:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
+text: `Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
 Oddiy qilib aytganda:
 • Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat. 
 • Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo). 
@@ -130,17 +164,12 @@ Oddiy qilib aytganda:
 
 Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
 quiz:[
-{
-q:"Modda nima?",
-a:["Jismlarni tashkil qiladigan material","Faqat suv","Faqat havo","Yorug‘lik"],
-c:0
-}
+{q:"Modda nima?",a:["Material","O‘yin","Rang","Yorug‘lik"],c:0}
 ]
 },
-
 {
 title:"2-MAVZU: Atmosfera",
-content:`Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
+text: `Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
 Oddiy qilib aytganda:
 • Biz nafas olayotgan havo atmosferaning bir qismi. 
 • Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi. 
@@ -152,17 +181,12 @@ Oddiy qilib aytganda:
 
 👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
 quiz:[
-{
-q:"Atmosfera nima?",
-a:["Suv qatlami","Havo qatlami","Tosh","Olov"],
-c:1
-}
+{q:"Atmosfera nima?",a:["Havo qatlami","Suv","Tosh","Olov"],c:0}
 ]
 },
-
 {
-title:"3-MAVZU: Havoning xossalari",
-content:`🌬 1. Havo ko‘rinmaydi
+title:"3-MAVZU: Havo",
+text: `🌬 1. Havo ko‘rinmaydi
 • Biz havoni ko‘rmaymiz, lekin u bor. 
 
 🌬 2. Havo hid va rangga ega emas
@@ -179,17 +203,12 @@ content:`🌬 1. Havo ko‘rinmaydi
 
 👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor.`,
 quiz:[
-{
-q:"Havo qanday?",
-a:["Ko‘rinadi","Rangsiz","Qattiq","Suv"],
-c:1
-}
+{q:"Havo qanday?",a:["Ko‘rinmaydi","Qattiq","Tosh","Suv"],c:0}
 ]
 },
-
 {
-title:"4-MAVZU: Suv va uning xossalari",
-content:`Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, yuvinadigan va o‘simliklar o‘sishi uchun kerak bo‘ladigan narsa — suvdir.
+title:"4-MAVZU: Suv",
+text: `Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, yuvinadigan va o‘simliklar o‘sishi uchun kerak bo‘ladigan narsa — suvdir.
 
 💧 Suvning xossalari (xususiyatlari):
 1. Suv shaffof (tiniq)
@@ -200,17 +219,12 @@ content:`Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, y
 
 👉 Xulosa: Suv — rangsiz, hidsiz, suyuq modda bo‘lib, hayot uchun juda muhim.`,
 quiz:[
-{
-q:"Suv qanday?",
-a:["Shaffof","Qattiq","Tosh","Gaz"],
-c:0
-}
+{q:"Suv qanday?",a:["Shaffof","Qattiq","Gaz","Tosh"],c:0}
 ]
 },
-
 {
 title:"5-MAVZU: Suv manbalari",
-content:`💧 Asosiy suv manbalari:
+text: `💧 Asosiy suv manbalari:
 
 1. Daryolar 🌊
 2. Ko‘llar 🏞
@@ -220,26 +234,31 @@ content:`💧 Asosiy suv manbalari:
 
 👉 Xulosa: Suv manbalari — bizga suv beradigan tabiiy joylar.`,
 quiz:[
-{
-q:"Daryo nima?",
-a:["Suv manbai","Tog‘","Bulut","Yorug‘lik"],
-c:0
-}
+{q:"Daryo nima?",a:["Suv manbai","Tog‘","O‘t","Yorug‘lik"],c:0}
 ]
 }
-
 ];
 
-function openLesson(i){
+function start(){
 document.getElementById("home").style.display="none";
-document.getElementById("lesson").style.display="block";
-current=i;
-document.getElementById("title").innerText=data[i].title;
-document.getElementById("content").innerText=data[i].content;
+document.getElementById("list").style.display="block";
 }
 
-function startQuiz(){
-qIndex=0;
+function openLesson(x){
+i=x;
+document.getElementById("list").style.display="none";
+document.getElementById("lesson").style.display="block";
+document.getElementById("title").innerText=data[i].title;
+document.getElementById("text").innerText=data[i].text;
+}
+
+function back(){
+document.getElementById("lesson").style.display="none";
+document.getElementById("list").style.display="block";
+}
+
+function quiz(){
+q=0;
 score=0;
 document.getElementById("lesson").style.display="none";
 document.getElementById("quiz").style.display="block";
@@ -247,36 +266,33 @@ showQ();
 }
 
 function showQ(){
-let q=data[current].quiz[qIndex];
-document.getElementById("question").innerText=q.q;
+let obj=data[i].quiz[q];
+document.getElementById("q").innerText=obj.q;
 
-let ans=document.getElementById("answers");
-ans.innerHTML="";
+let a=document.getElementById("answers");
+a.innerHTML="";
 
-q.a.forEach((text,i)=>{
-let btn=document.createElement("button");
-btn.innerText=text;
-btn.onclick=()=>{
-if(i===q.c){score++;}
+obj.a.forEach((t,idx)=>{
+let b=document.createElement("button");
+b.innerText=t;
+b.className="opt";
+b.onclick=()=>{
+if(idx==obj.c) score++;
 next();
 };
-ans.appendChild(btn);
+a.appendChild(b);
 });
 }
 
 function next(){
-qIndex++;
-if(qIndex<data[current].quiz.length){
+q++;
+if(q<data[i].quiz.length){
 showQ();
 }else{
 document.getElementById("quiz").style.display="none";
-document.getElementById("result").style.display="block";
-document.getElementById("score").innerText=score+" / "+data[current].quiz.length;
+document.getElementById("result").style.display="flex";
+document.getElementById("score").innerText=score+"/"+data[i].quiz.length;
 }
-}
-
-function backHome(){
-location.reload();
 }
 
 </script>
