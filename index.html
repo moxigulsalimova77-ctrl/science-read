@@ -293,36 +293,9 @@ document.getElementById("result").style.display="flex";
 document.getElementById("score").innerText=score+"/"+data[i].quiz.length;
 }
 }
-function showQ(){
-let obj=data[i].quiz[q];
 
-document.getElementById("q").innerText=obj.q;
-
-let a=document.getElementById("answers");
-a.innerHTML="";
-
-obj.a.forEach((t,idx)=>{
-let b=document.createElement("button");
-b.innerText=t;
-b.className="opt";
-
-b.onclick=()=>{
-
-let buttons=document.querySelectorAll(".opt");
-
-if(idx===obj.c){
-score++;
-markAnswer(b,true,obj.c,buttons);
-}else{
-markAnswer(b,false,obj.c,buttons);
-}
-
-};
-
-a.appendChild(b);
-});
-}
 </script>
 
 </body>
 </html>
+
