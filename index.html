@@ -3,123 +3,109 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Science Read - 4 sinf</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<title>Tabiiy fanlar - 4 sinf</title>
 
 <style>
 body{
   margin:0;
-  font-family:Roboto;
-  background:#0b1220;
+  font-family:Arial;
+  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
   color:white;
 }
 
-/* HEADER */
-header{
-  padding:20px;
+/* HOME */
+.home{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align:center;
-  background:linear-gradient(90deg,#4f46e5,#06b6d4);
-  font-size:20px;
+}
+
+.title{
+  font-size:32px;
   font-weight:bold;
+  margin-bottom:20px;
 }
 
-/* LAYOUT */
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
+.startBtn{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:none;
+  font-size:18px;
+  background:#22c55e;
+  color:black;
+  cursor:pointer;
 }
 
-/* CARD */
-.card{
-  background:#111827;
+/* TOPICS */
+.container{padding:20px;}
+
+.topic{
+  background:rgba(255,255,255,0.15);
   padding:15px;
   margin:10px 0;
-  border-radius:16px;
+  border-radius:15px;
+  font-size:18px;
   cursor:pointer;
-  transition:0.3s;
-  border:1px solid #1f2937;
 }
 
-.card:hover{
-  transform:scale(1.02);
-  border-color:#38bdf8;
-}
-
-/* BUTTONS */
-button{
-  padding:10px 14px;
+/* ADMIN */
+.adminBtn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  background:#f59e0b;
+  padding:10px;
   border:none;
   border-radius:10px;
-  cursor:pointer;
 }
 
-.adminBtn{background:#f59e0b;color:black;}
-.addBtn{background:#22c55e;}
-.delBtn{background:#ef4444;}
+.panel{
+  background:#111827;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
 
-/* INPUT */
 input,textarea{
   width:100%;
   padding:10px;
   margin:5px 0;
-  border-radius:10px;
+}
+button{
+  padding:10px;
   border:none;
-  background:#1f2937;
-  color:white;
-}
-
-/* OPTION */
-.option{
-  background:#1f2937;
-  padding:12px;
-  margin:8px 0;
-  border-radius:12px;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.option:hover{
-  background:#38bdf8;
-  color:black;
-}
-
-/* LAYOUT SECTIONS */
-.hidden{display:none;}
-
-.topBar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-👋 4-sinf Tabiiy fanlar | Science Read
-</header>
-
-<div class="container">
-
-<div class="topBar">
-<button class="adminBtn" onclick="login()">Admin</button>
-</div>
-
 <!-- ADMIN -->
-<div id="adminPanel" class="hidden">
-<h3>🛠 Admin Dashboard</h3>
+<button class="adminBtn" onclick="login()">Admin</button>
 
-<input id="title" placeholder="Mavzu nomi"/>
-<textarea id="desc" placeholder="Dars matni"></textarea>
-
-<button class="addBtn" onclick="addTopic()">+ Saqlash</button>
+<!-- HOME -->
+<div id="home" class="home">
+  <div class="title">Qadrli o‘quvchi, tabiiy fanlarga xush kelibsan!</div>
+  <button class="startBtn" onclick="showTopics()">Boshlash</button>
 </div>
 
-<h3>📚 Mavzular</h3>
-<div id="topics"></div>
+<!-- TOPICS -->
+<div id="topics" class="container" style="display:none">
+
+<div id="adminPanel" style="display:none" class="panel">
+<h3>Admin panel</h3>
+<input id="title" placeholder="Mavzu nomi"/>
+<textarea id="desc" placeholder="Mavzu matni"></textarea>
+<button onclick="addTopic()">Saqlash</button>
+</div>
+
+<h2>Mavzular</h2>
+<div id="list"></div>
 
 <div id="lesson"></div>
 
@@ -142,79 +128,65 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let currentId = null;
+/* HOME */
+function showTopics(){
+  document.getElementById("home").style.display="none";
+  document.getElementById("topics").style.display="block";
+  loadTopics();
+}
 
 /* ADMIN LOGIN */
 function login(){
   let p = prompt("Admin kod:");
   if(p==="1234"){
-    document.getElementById("adminPanel").classList.remove("hidden");
-    alert("Admin ochildi");
+    document.getElementById("adminPanel").style.display="block";
   }
 }
 
-/* LOAD TOPICS */
-db.collection("topics").onSnapshot(snap=>{
-  let box = document.getElementById("topics");
-  box.innerHTML="";
-
-  snap.forEach(doc=>{
-    let d = doc.data();
-
-    box.innerHTML += `
-      <div class="card">
-        <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
-        <button class="delBtn" onclick="deleteTopic('${doc.id}')">O‘chirish</button>
-      </div>
-    `;
-  });
-});
-
-/* ADD / SAVE */
+/* ADD */
 function addTopic(){
-  let title = document.getElementById("title").value;
-  let desc = document.getElementById("desc").value;
-
-  if(currentId){
-    db.collection("topics").doc(currentId).update({title,desc});
-    currentId = null;
-  } else {
-    db.collection("topics").add({title,desc});
-  }
-
-  document.getElementById("title").value="";
-  document.getElementById("desc").value="";
+  db.collection("topics").add({
+    title:document.getElementById("title").value,
+    desc:document.getElementById("desc").value
+  });
 }
 
-/* DELETE */
-function deleteTopic(id){
-  db.collection("topics").doc(id).delete();
+/* LOAD */
+function loadTopics(){
+  db.collection("topics").onSnapshot(snap=>{
+    let box=document.getElementById("list");
+    box.innerHTML="";
+
+    snap.forEach(doc=>{
+      let d=doc.data();
+
+      box.innerHTML+=`
+        <div class="topic" onclick="openTopic('${doc.id}')">
+          ${d.title}
+        </div>
+      `;
+    });
+  });
 }
 
-/* OPEN TOPIC */
+/* OPEN */
 function openTopic(id){
   db.collection("topics").doc(id).get().then(doc=>{
-    let d = doc.data();
-    currentId = id;
+    let d=doc.data();
 
-    document.getElementById("lesson").innerHTML = `
-      <div class="card">
-        <h2>${d.title}</h2>
-        <p>${d.desc}</p>
-      </div>
+    document.getElementById("lesson").innerHTML=`
+      <h2>${d.title}</h2>
+      <p>${d.desc}</p>
 
       <h3>📝 Test</h3>
+      <button onclick="alert('To‘g‘ri')">A</button>
+      <button onclick="alert('Noto‘g‘ri')">B</button>
 
-      <div class="option" onclick="alert('To‘g‘ri 👍')">A variant</div>
-      <div class="option" onclick="alert('Noto‘g‘ri ❌')">B variant</div>
-      <div class="option" onclick="alert('Noto‘g‘ri ❌')">C variant</div>
-
-      <h3>✍ PIRLS savol</h3>
-      <textarea placeholder="Javob yozing..."></textarea>
+      <h3>✍ PIRLS</h3>
+      <textarea placeholder="Javob yoz..."></textarea>
 
       <h3>🖼 Rasm topshiriq</h3>
-      <div class="option">Rasm 1</div>
-      <div class="option">Rasm 2</div>
+      <p>Rasm joylash keyin qo‘shiladi</p>
     `;
   });
 }
