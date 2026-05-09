@@ -98,58 +98,6 @@ button:hover{
     color:white !important;
 }
 
-body{
-    margin:0;
-    font-family: 'Segoe UI', Arial;
-    background: linear-gradient(135deg,#141e30,#243b55);
-    color:white;
-}
-
-/* card pro */
-.card{
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    color:white;
-    border:1px solid rgba(255,255,255,0.2);
-}
-
-/* button pro */
-button{
-    border-radius:14px;
-    font-weight:bold;
-    box-shadow:0 4px 15px rgba(0,0,0,0.3);
-}
-
-.card, .container{
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* correct/wrong animation */
-.correct{
-    animation: pop 0.3s ease;
-}
-
-.wrong{
-    animation: shake 0.3s ease;
-}
-
-@keyframes pop{
-    0%{transform:scale(0.8);}
-    100%{transform:scale(1);}
-}
-
-@keyframes shake{
-    0%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    50%{transform:translateX(5px);}
-    100%{transform:translateX(0);}
-}
-
 @media(max-width:768px){
 
 .container{
@@ -191,16 +139,10 @@ button{
 }
 
 }
-
 </style>
-
-</head>
-
-<body>
 
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>4-Sinf Tabiiy Fan PRO</title>
@@ -254,7 +196,6 @@ button{
 </div>
 
 <!-- RESULT -->
-
 <div id="result" class="center" style="display:none;">
     <div style="background:white;color:black;padding:25px;border-radius:20px;max-width:500px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.4)">
 
