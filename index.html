@@ -257,16 +257,23 @@ Oddiy qilib aytganda:
 • Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi 
 
 👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
-quiz:[
-{q:"Atmosfera nima?",a:["Havo qatlami","Suv","Tosh","Olov"],c:0},
+tasks:[
 
-{q:"Biz nafas olayotgan havo qayerda?",a:["Atmosferada","Yer ostida","Suvda","Toshda"],c:0},
+{
+q:"1-topshiriq: Atmosfera haqida fikringni yozing.",
+answer:"havo"
+},
 
-{q:"Atmosfera nimadan himoya qiladi?",a:["Quyosh issig‘idan","Qalamdan","Doskadan","Kitobdan"],c:0},
+{
+q:"2-topshiriq: Atmosferani nima ifloslantiradi deb o‘ylaysiz?",
+answer:"zavod, mashina, chiqindilar"
+},
 
-{q:"Yomg‘ir qayerda hosil bo‘ladi?",a:["Atmosferada","Uyda","Tog‘da","Daryoda"],c:0},
+{
+q:"3-topshiriq: Atmosfera Quyoshdan himoya qiladimi?",
+answer:"ha"
+}
 
-{q:"Atmosfera Yerning nima qatlami?",a:["Havo","Temir","Suv","Qum"],c:0}
 ]
 },
 {
@@ -369,9 +376,11 @@ document.getElementById("list").style.display="block";
 function quiz(){
 q=0;
 score=0;
+
 document.getElementById("lesson").style.display="none";
 document.getElementById("quiz").style.display="block";
-showQ();
+
+startQuiz();   // ✅ SHU
 }
 
 function shuffle(array){
@@ -417,6 +426,62 @@ setTimeout(next,800);
 
 a.appendChild(b);
 });
+}
+
+function showTask(){
+
+let obj = data[i].tasks[q];
+
+document.getElementById("q").innerText = obj.q;
+
+let a = document.getElementById("answers");
+
+a.innerHTML = `
+<textarea id="userAnswer"
+style="width:100%;height:120px;padding:15px;border-radius:12px;font-size:16px;"></textarea>
+
+<button onclick="checkTask()">📤 Yuborish</button>
+`;
+
+}
+
+function checkTask(){
+
+let obj = data[i].tasks[q];
+
+let user =
+document.getElementById("userAnswer")
+.value
+.toLowerCase();
+
+if(user.includes(obj.answer)){
+score++;
+alert("✅ To‘g‘ri!");
+}else{
+alert("❌ Javob qabul qilindi");
+}
+
+nextTask();
+}
+function nextTask(){
+
+q++;
+
+if(q < data[i].tasks.length){
+
+showTask();
+
+}else{
+
+document.getElementById("quiz").style.display="none";
+
+document.getElementById("result").style.display="flex";
+
+document.getElementById("score").innerText =
+"Ball: " + score + "/" + data[i].tasks.length;
+
+}
+
 }
 
 function next(){
