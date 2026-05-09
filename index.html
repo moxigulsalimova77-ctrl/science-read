@@ -2,170 +2,281 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Science LMS Firebase</title>
+<title>4-Sinf Tabiiy Fan Platforma</title>
 
 <style>
 body{
-  margin:0;
-  font-family:Arial;
-  background:#0f172a;
-  color:white;
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#e3f2fd,#e8f5e9);
 }
 
-header{
-  text-align:center;
-  padding:20px;
-  background:linear-gradient(90deg,#4f46e5,#06b6d4);
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
 }
-
-.container{padding:20px;}
 
 .card{
-  background:#111827;
-  padding:15px;
-  margin:10px 0;
-  border-radius:12px;
-}
-
-input,textarea{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  border-radius:10px;
-  border:none;
+    background:white;
+    padding:20px;
+    margin:15px 0;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
 button{
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+    padding:10px;
+    margin:5px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:16px;
+    background:#1976d2;
+    color:white;
 }
 
-.admin{
-  background:#f59e0b;
+button:hover{
+    background:#0d47a1;
 }
 
-.add{
-  background:#22c55e;
+h1,h2{
+    text-align:center;
 }
-
-.del{
-  background:#ef4444;
-}
-
-.option{
-  background:#1f2937;
-  padding:10px;
-  margin:5px 0;
-  border-radius:10px;
-  cursor:pointer;
+pre{
+    white-space:pre-wrap;
 }
 </style>
+
 </head>
-
 <body>
-
-<header>
-📚 4-SINF TABIIY FANLAR (FIREBASE REAL)
-</header>
 
 <div class="container">
 
-<button class="admin" onclick="login()">Admin</button>
+<h1>🌿 4-SINF TABIIY FAN PLATFORMA</h1>
 
-<div id="adminPanel" style="display:none" class="card">
-<h3>➕ Mavzu qo‘shish</h3>
+<div id="home">
 
-<input id="title" placeholder="Mavzu nomi">
-<textarea id="desc" placeholder="Mavzu matni"></textarea>
-
-<button class="add" onclick="addTopic()">Saqlash</button>
+<div class="card">
+<h2>1-MAVZU: Modda</h2>
+<button onclick="openLesson(0)">Mavzuni ochish</button>
 </div>
 
-<h2>Mavzular</h2>
-<div id="topics"></div>
+<div class="card">
+<h2>2-MAVZU: Atmosfera</h2>
+<button onclick="openLesson(1)">Mavzuni ochish</button>
+</div>
 
-<div id="lesson"></div>
+<div class="card">
+<h2>3-MAVZU: Havoning xossalari</h2>
+<button onclick="openLesson(2)">Mavzuni ochish</button>
+</div>
+
+<div class="card">
+<h2>4-MAVZU: Suv va uning xossalari</h2>
+<button onclick="openLesson(3)">Mavzuni ochish</button>
+</div>
+
+<div class="card">
+<h2>5-MAVZU: Suv manbalari</h2>
+<button onclick="openLesson(4)">Mavzuni ochish</button>
+</div>
 
 </div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<!-- LESSON -->
+<div id="lesson" style="display:none;" class="card">
+<h2 id="title"></h2>
+<pre id="content"></pre>
+
+<button onclick="startQuiz()">🎮 Testni boshlash</button>
+<button onclick="backHome()">⬅ Orqaga</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" style="display:none;" class="card">
+<h2 id="question"></h2>
+<div id="answers"></div>
+</div>
+
+<!-- RESULT -->
+<div id="result" style="display:none;" class="card">
+<h2>🏆 Natija</h2>
+<h3 id="score"></h3>
+<button onclick="backHome()">Boshiga qaytish</button>
+</div>
+
+</div>
 
 <script>
 
-// 🔥 Firebase config (sening project)
-const firebaseConfig = {
-  apiKey: "AIzaSyCcoCX94i2eIMXWyP3zW2dwDARcECvDMr8",
-  authDomain: "science-read.firebaseapp.com",
-  projectId: "science-read",
-  storageBucket: "science-read.firebasestorage.app",
-  messagingSenderId: "1070431247250",
-  appId: "1:1070431247250:web:423376924d1d29224bff4b"
+let current=0;
+let qIndex=0;
+let score=0;
+
+const data=[
+{
+title:"1-MAVZU: Modda",
+content:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
+Oddiy qilib aytganda:
+• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat. 
+• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo). 
+
+📌 Misol:
+• Siz ichayotgan suv — modda 
+• Nafas olayotgan havo — modda 
+• Qo‘lingizdagi qalam — modda 
+
+Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
+quiz:[
+{
+q:"Modda nima?",
+a:["Jismlarni tashkil qiladigan material","Faqat suv","Faqat havo","Yorug‘lik"],
+c:0
+}
+]
+},
+
+{
+title:"2-MAVZU: Atmosfera",
+content:`Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
+Oddiy qilib aytganda:
+• Biz nafas olayotgan havo atmosferaning bir qismi. 
+• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi. 
+
+📌 Atmosfera nima uchun kerak?
+• Bizga nafas olish uchun havo beradi 
+• Yerni Quyoshning juda issiq nurlaridan himoya qiladi 
+• Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi 
+
+👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
+quiz:[
+{
+q:"Atmosfera nima?",
+a:["Suv qatlami","Havo qatlami","Tosh","Olov"],
+c:1
+}
+]
+},
+
+{
+title:"3-MAVZU: Havoning xossalari",
+content:`🌬 1. Havo ko‘rinmaydi
+• Biz havoni ko‘rmaymiz, lekin u bor. 
+
+🌬 2. Havo hid va rangga ega emas
+• Havo odatda rangsiz va hidsiz bo‘ladi. 
+
+🌬 3. Havo hamma joyni egallaydi
+• Bo‘sh idishning ichini ham havo to‘ldiradi. 
+
+🌬 4. Havo bosimga ega
+• Havo bosadi, shuning uchun shamol esadi. 
+
+🌬 5. Havo siqiladi va kengayadi
+• Havo siqilsa kichrayadi, bo‘shatilsa kengayadi. 
+
+👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor.`,
+quiz:[
+{
+q:"Havo qanday?",
+a:["Ko‘rinadi","Rangsiz","Qattiq","Suv"],
+c:1
+}
+]
+},
+
+{
+title:"4-MAVZU: Suv va uning xossalari",
+content:`Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, yuvinadigan va o‘simliklar o‘sishi uchun kerak bo‘ladigan narsa — suvdir.
+
+💧 Suvning xossalari (xususiyatlari):
+1. Suv shaffof (tiniq)
+2. Suvning o‘ziga xos rangi va hidi yo‘q
+3. Suv suyuq
+4. Suv muzlashi va bug‘lanishi mumkin
+5. Suv hayot uchun juda zarur
+
+👉 Xulosa: Suv — rangsiz, hidsiz, suyuq modda bo‘lib, hayot uchun juda muhim.`,
+quiz:[
+{
+q:"Suv qanday?",
+a:["Shaffof","Qattiq","Tosh","Gaz"],
+c:0
+}
+]
+},
+
+{
+title:"5-MAVZU: Suv manbalari",
+content:`💧 Asosiy suv manbalari:
+
+1. Daryolar 🌊
+2. Ko‘llar 🏞
+3. Dengiz va okeanlar 🌊
+4. Buloqlar 💦
+5. Yer osti suvlari 🌍
+
+👉 Xulosa: Suv manbalari — bizga suv beradigan tabiiy joylar.`,
+quiz:[
+{
+q:"Daryo nima?",
+a:["Suv manbai","Tog‘","Bulut","Yorug‘lik"],
+c:0
+}
+]
+}
+
+];
+
+function openLesson(i){
+document.getElementById("home").style.display="none";
+document.getElementById("lesson").style.display="block";
+current=i;
+document.getElementById("title").innerText=data[i].title;
+document.getElementById("content").innerText=data[i].content;
+}
+
+function startQuiz(){
+qIndex=0;
+score=0;
+document.getElementById("lesson").style.display="none";
+document.getElementById("quiz").style.display="block";
+showQ();
+}
+
+function showQ(){
+let q=data[current].quiz[qIndex];
+document.getElementById("question").innerText=q.q;
+
+let ans=document.getElementById("answers");
+ans.innerHTML="";
+
+q.a.forEach((text,i)=>{
+let btn=document.createElement("button");
+btn.innerText=text;
+btn.onclick=()=>{
+if(i===q.c){score++;}
+next();
 };
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-/* ADMIN LOGIN */
-function login(){
-  let p = prompt("Admin kod:");
-  if(p==="1234"){
-    document.getElementById("adminPanel").style.display="block";
-  }
-}
-
-/* ADD TOPIC */
-function addTopic(){
-  db.collection("topics").add({
-    title: document.getElementById("title").value,
-    desc: document.getElementById("desc").value
-  });
-
-  document.getElementById("title").value="";
-  document.getElementById("desc").value="";
-}
-
-/* LOAD REAL TIME */
-db.collection("topics").onSnapshot(snap=>{
-  let box=document.getElementById("topics");
-  box.innerHTML="";
-
-  snap.forEach(doc=>{
-    let d=doc.data();
-
-    box.innerHTML+=`
-      <div class="card">
-        <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
-        <button class="del" onclick="deleteTopic('${doc.id}')">O‘chirish</button>
-      </div>
-    `;
-  });
+ans.appendChild(btn);
 });
-
-/* OPEN TOPIC */
-function openTopic(id){
-  db.collection("topics").doc(id).get().then(doc=>{
-    let d=doc.data();
-
-    document.getElementById("lesson").innerHTML=`
-      <div class="card">
-        <h2>${d.title}</h2>
-        <p>${d.desc}</p>
-
-        <h3>📝 Test</h3>
-        <div class="option" onclick="alert('To‘g‘ri')">Variant A</div>
-        <div class="option" onclick="alert('Noto‘g‘ri')">Variant B</div>
-      </div>
-    `;
-  });
 }
 
-/* DELETE */
-function deleteTopic(id){
-  db.collection("topics").doc(id).delete();
+function next(){
+qIndex++;
+if(qIndex<data[current].quiz.length){
+showQ();
+}else{
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+document.getElementById("score").innerText=score+" / "+data[current].quiz.length;
+}
+}
+
+function backHome(){
+location.reload();
 }
 
 </script>
