@@ -1,117 +1,174 @@
-const data = [
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Science LMS Firebase</title>
 
-{
-title:"1-MAVZU: Modda",
-content:`Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
-
-Oddiy qilib aytganda:
-• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat.
-• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo).
-
-📌 Misol:
-• Siz ichayotgan suv — modda
-• Nafas olayotgan havo — modda
-• Qo‘lingizdagi qalam — modda
-
-Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
-
-quiz:[
-{q:"Modda nima?",a:["Jismlarni tashkil qiladigan material","Faqat suv","Faqat havo","Yorug‘lik"],c:0}
-]
-},
-
-{
-title:"2-MAVZU: Atmosfera",
-content:`Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
-
-Oddiy qilib aytganda:
-• Biz nafas olayotgan havo atmosferaning bir qismi.
-• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi.
-
-📌 Atmosfera nima uchun kerak?
-• Bizga nafas olish uchun havo beradi
-• Yerni Quyoshning juda issiq nurlaridan himoya qiladi
-• Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi
-
-👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
-
-quiz:[
-{q:"Atmosfera nima?",a:["Havo qatlami","Suv","Tosh","Olov"],c:0}
-]
-},
-
-{
-title:"3-MAVZU: Havoning xossalari",
-content:`Havoning xossalari (xususiyatlari) — bu havo qanday ekanini bildiradi. 4-sinf uchun oddiy qilib:
-
-🌬 1. Havo ko‘rinmaydi
-• Biz havoni ko‘rmaymiz, lekin u bor.
-• Masalan, shamolni ko‘ramiz, lekin havoning o‘zini emas.
-
-🌬 2. Havo hid va rangga ega emas
-• Havo odatda rangsiz va hidsiz bo‘ladi.
-
-🌬 3. Havo hamma joyni egallaydi
-• Bo‘sh idishning ichini ham havo to‘ldiradi.
-• Hatto biz turgan joyda ham havo bor.
-
-🌬 4. Havo bosimga ega
-• Havo bosadi, shuning uchun shamol esadi.
-
-🌬 5. Havo siqiladi va kengayadi
-• Havo siqilsa kichrayadi, bo‘shatilsa kengayadi.
-• Masalan, nasos bilan velosiped g‘ildiragini shishiramiz.
-
-👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor va hayot uchun juda muhim.`,
-
-quiz:[
-{q:"Havo qanday?",a:["Ko‘rinmaydi","Qattiq","Suv","Tosh"],c:0}
-]
-},
-
-{
-title:"4-MAVZU: Suv va uning xossalari",
-content:`Suv — Yer yuzida eng ko‘p uchraydigan suyuq modda. Biz ichadigan, yuvinadigan va o‘simliklar o‘sishi uchun kerak bo‘ladigan narsa — suvdir.
-
-💧 Suvning xossalari:
-1. Suv shaffof (tiniq)
-• Suv rangsiz bo‘ladi, ichidan narsalarni ko‘rish mumkin.
-
-2. Suvning o‘ziga xos rangi va hidi yo‘q
-• Toza suv hidsiz va rangsiz bo‘ladi.
-
-3. Suv suyuq
-• U oqadi va idish shaklini oladi.
-
-4. Suv muzlashi va bug‘lanishi mumkin
-• Sovuqda muzga aylanadi, issiqda bug‘lanadi.
-
-5. Suv hayot uchun juda zarur
-• Odamlar, hayvonlar va o‘simliklar suvsiz yashay olmaydi.
-
-👉 Xulosa: Suv — rangsiz, hidsiz, suyuq modda.`,
-
-quiz:[
-{q:"Suv qanday?",a:["Shaffof","Qattiq","Gaz","Tosh"],c:0}
-]
-},
-
-{
-title:"5-MAVZU: Suv manbalari",
-content:`Suv manbalari — bu biz suvni oladigan tabiiy joylar.
-
-💧 Asosiy suv manbalari:
-1. Daryolar 🌊
-2. Ko‘llar 🏞
-3. Dengiz va okeanlar 🌊
-4. Buloqlar 💦
-5. Yer osti suvlari 🌍
-
-👉 Xulosa: Suv manbalari — daryo, ko‘l, dengiz, buloq va yer osti suvlaridir.`,
-
-quiz:[
-{q:"Daryo nima?",a:["Suv manbai","Tog‘","Olov","Bulut"],c:0}
-]
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
 }
 
-];
+header{
+  text-align:center;
+  padding:20px;
+  background:linear-gradient(90deg,#4f46e5,#06b6d4);
+}
+
+.container{padding:20px;}
+
+.card{
+  background:#111827;
+  padding:15px;
+  margin:10px 0;
+  border-radius:12px;
+}
+
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:10px;
+  border:none;
+}
+
+button{
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.admin{
+  background:#f59e0b;
+}
+
+.add{
+  background:#22c55e;
+}
+
+.del{
+  background:#ef4444;
+}
+
+.option{
+  background:#1f2937;
+  padding:10px;
+  margin:5px 0;
+  border-radius:10px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+📚 4-SINF TABIIY FANLAR (FIREBASE REAL)
+</header>
+
+<div class="container">
+
+<button class="admin" onclick="login()">Admin</button>
+
+<div id="adminPanel" style="display:none" class="card">
+<h3>➕ Mavzu qo‘shish</h3>
+
+<input id="title" placeholder="Mavzu nomi">
+<textarea id="desc" placeholder="Mavzu matni"></textarea>
+
+<button class="add" onclick="addTopic()">Saqlash</button>
+</div>
+
+<h2>Mavzular</h2>
+<div id="topics"></div>
+
+<div id="lesson"></div>
+
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+
+// 🔥 Firebase config (sening project)
+const firebaseConfig = {
+  apiKey: "AIzaSyCcoCX94i2eIMXWyP3zW2dwDARcECvDMr8",
+  authDomain: "science-read.firebaseapp.com",
+  projectId: "science-read",
+  storageBucket: "science-read.firebasestorage.app",
+  messagingSenderId: "1070431247250",
+  appId: "1:1070431247250:web:423376924d1d29224bff4b"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* ADMIN LOGIN */
+function login(){
+  let p = prompt("Admin kod:");
+  if(p==="1234"){
+    document.getElementById("adminPanel").style.display="block";
+  }
+}
+
+/* ADD TOPIC */
+function addTopic(){
+  db.collection("topics").add({
+    title: document.getElementById("title").value,
+    desc: document.getElementById("desc").value
+  });
+
+  document.getElementById("title").value="";
+  document.getElementById("desc").value="";
+}
+
+/* LOAD REAL TIME */
+db.collection("topics").onSnapshot(snap=>{
+  let box=document.getElementById("topics");
+  box.innerHTML="";
+
+  snap.forEach(doc=>{
+    let d=doc.data();
+
+    box.innerHTML+=`
+      <div class="card">
+        <h3 onclick="openTopic('${doc.id}')">${d.title}</h3>
+        <button class="del" onclick="deleteTopic('${doc.id}')">O‘chirish</button>
+      </div>
+    `;
+  });
+});
+
+/* OPEN TOPIC */
+function openTopic(id){
+  db.collection("topics").doc(id).get().then(doc=>{
+    let d=doc.data();
+
+    document.getElementById("lesson").innerHTML=`
+      <div class="card">
+        <h2>${d.title}</h2>
+        <p>${d.desc}</p>
+
+        <h3>📝 Test</h3>
+        <div class="option" onclick="alert('To‘g‘ri')">Variant A</div>
+        <div class="option" onclick="alert('Noto‘g‘ri')">Variant B</div>
+      </div>
+    `;
+  });
+}
+
+/* DELETE */
+function deleteTopic(id){
+  db.collection("topics").doc(id).delete();
+}
+
+</script>
+
+</body>
+</html>
