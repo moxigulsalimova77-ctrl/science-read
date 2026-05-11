@@ -229,6 +229,19 @@ button{
         0 0 40px rgba(0,198,255,0.9),
         0 0 60px rgba(0,114,255,0.8);
     }
+
+    .lessonImg{
+    width:100%;
+    max-width:500px;
+
+    border-radius:20px;
+
+    margin:20px auto;
+
+    display:block;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
 }
 </style>
 
@@ -278,6 +291,7 @@ Interaktiv O‘quv Platformasi
 <!-- LESSON -->
 <div id="lesson" class="container" style="display:none;">
     <h2 id="title"></h2>
+    <img id="lessonImg" class="lessonImg">
     <p id="text"></p>
 
     <button onclick="quiz()">🎮 Testga o‘tish</button>
@@ -313,15 +327,16 @@ let score=0;
 const data=[
 {
 title:"1-MAVZU: Modda",
+    img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Water_drops.jpg",
 text: `Modda — bu atrofimizdagi hamma narsani tashkil qiladigan “material”.
 Oddiy qilib aytganda:
-• Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat. 
-• Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo). 
+- Siz ko‘rayotgan stol, kitob, suv, havo, tosh — hammasi moddadan iborat. 
+- Moddalar turli ko‘rinishda bo‘ladi: qattiq (tosh), suyuq (suv), gaz (havo). 
 
 📌 Misol:
-• Siz ichayotgan suv — modda 
-• Nafas olayotgan havo — modda 
-• Qo‘lingizdagi qalam — modda 
+- Siz ichayotgan suv — modda 
+- Nafas olayotgan havo — modda 
+- Qo‘lingizdagi qalam — modda 
 
 Demak, modda — bu jismlarni tashkil qiladigan hamma narsaning asosi.`,
 quiz:[
@@ -340,13 +355,13 @@ quiz:[
 title:"2-MAVZU: Atmosfera",
 text: `Atmosfera — bu Yer sharini o‘rab turgan havo qatlami.
 Oddiy qilib aytganda:
-• Biz nafas olayotgan havo atmosferaning bir qismi. 
-• Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi. 
+- Biz nafas olayotgan havo atmosferaning bir qismi. 
+- Atmosfera Yer atrofida “ko‘rinmas ko‘rpa” kabi turadi. 
 
 📌 Atmosfera nima uchun kerak?
-• Bizga nafas olish uchun havo beradi 
-• Yerni Quyoshning juda issiq nurlaridan himoya qiladi 
-• Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi 
+- Bizga nafas olish uchun havo beradi 
+- Yerni Quyoshning juda issiq nurlaridan himoya qiladi 
+- Yomg‘ir, shamol kabi ob-havo hodisalari shu yerda bo‘ladi 
 
 👉 Demak, atmosfera — Yerning hayot uchun juda muhim havo qatlami.`,
 quiz:[
@@ -364,19 +379,19 @@ quiz:[
 {
 title:"3-MAVZU: Havo",
 text: `🌬 1. Havo ko‘rinmaydi
-• Biz havoni ko‘rmaymiz, lekin u bor. 
+- Biz havoni ko‘rmaymiz, lekin u bor. 
 
 🌬 2. Havo hid va rangga ega emas
-• Havo odatda rangsiz va hidsiz bo‘ladi. 
+- Havo odatda rangsiz va hidsiz bo‘ladi. 
 
 🌬 3. Havo hamma joyni egallaydi
-• Bo‘sh idishning ichini ham havo to‘ldiradi. 
+- Bo‘sh idishning ichini ham havo to‘ldiradi. 
 
 🌬 4. Havo bosimga ega
-• Havo bosadi, shuning uchun shamol esadi. 
+- Havo bosadi, shuning uchun shamol esadi. 
 
 🌬 5. Havo siqiladi va kengayadi
-• Havo siqilsa kichrayadi, bo‘shatilsa kengayadi. 
+- Havo siqilsa kichrayadi, bo‘shatilsa kengayadi. 
 
 👉 Xulosa: havo ko‘rinmas bo‘lsa ham, u hamma joyda bor.`,
 quiz:[
@@ -545,6 +560,7 @@ document.getElementById("lesson").style.display="block";
 
 document.getElementById("title").innerText=data[i].title;
 document.getElementById("text").innerText=data[i].text;
+document.getElementById("lessonImg").src=data[i].img;
 }
 
 </script>
