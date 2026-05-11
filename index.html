@@ -181,15 +181,68 @@ button:hover{
 }
 
 }
+
+    .mainTitle{
+    font-size:70px;
+    font-family:'Comic Sans MS';
+    font-weight:bold;
+    color:white;
+
+    text-shadow:
+    0 0 10px rgba(255,255,255,0.6),
+    0 0 20px rgba(0,198,255,0.7),
+    0 0 40px rgba(0,114,255,0.6);
+
+    margin-bottom:10px;
+
+    animation: glow 2s infinite alternate;
+}
+
+.subTitle{
+    font-size:28px;
+    font-family:'Comic Sans MS';
+    font-weight:bold;
+    color:white;
+
+    margin-bottom:30px;
+
+    text-shadow:0 0 10px rgba(255,255,255,0.5);
+}
+
+button{
+    font-size:28px !important;
+    font-family:'Comic Sans MS';
+    font-weight:bold;
+    padding:18px 40px !important;
+}
+
+@keyframes glow{
+    from{
+        text-shadow:
+        0 0 10px rgba(255,255,255,0.5),
+        0 0 20px rgba(0,198,255,0.5);
+    }
+
+    to{
+        text-shadow:
+        0 0 20px rgba(255,255,255,0.9),
+        0 0 40px rgba(0,198,255,0.9),
+        0 0 60px rgba(0,114,255,0.8);
+    }
+}
 </style>
 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>4-Sinf Tabiiy Fan PRO</title>
-    <p>PRO Interaktiv O‘quv Platforma</p>
-    <button onclick="start()">🚀 Boshlash</button>
+<h1 class="mainTitle">🌿 4-SINF TABIIY FAN</h1>
+
+<p class="subTitle">
+Interaktiv O‘quv Platformasi
+</p>
+
+<button onclick="start()">🚀 Boshlash</button>
 </div>
 
 <!-- LESSON LIST -->
